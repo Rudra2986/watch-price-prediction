@@ -1,0 +1,43 @@
+============================================================
+EDA INSIGHTS — Watch Price Prediction
+============================================================
+
+📌 INSIGHT 2.3 — TARGET VARIABLE (PRICE)
+   • Price range: ₹1,999 – ₹7,499
+   • Avg price: ~₹3,231 | Median slightly lower (right skewed)
+   • 102 outliers (6.85%) — all on HIGH end (expensive watches)
+   • Outliers are real data — do NOT remove
+   • Log transformation recommended for Step 3
+
+📌 INSIGHT 2.4 — BINARY FEATURES
+   • is_automatic & ai_is_automatic are 100% identical
+   • 89.1% values are 'unknown' in both columns
+   • Drop ai_is_automatic in Step 3
+
+📌 INSIGHT 2.5 — CATEGORICAL FEATURES
+   • 14 categorical columns total
+   • Only 'category' column has 0% unknowns
+   • 853 watches (57.3%) have NO attribute details
+   • 1,302 watches (87.5%) have unknown brand
+   • color & dial_color have highest cardinality (67 & 75)
+
+📌 INSIGHT 2.6 — BRAND ANALYSIS
+   • Only 14 real brands in dataset
+   • Only 186 watches (12.5%) have real brand info
+   • Brand likely strong price signal despite high unknowns
+   • Create has_brand flag in Step 3
+
+📌 INSIGHT 2.7 — CORRELATIONS
+   • Label correlation weak due to high unknown %
+   • Price SPREAD more reliable signal for this dataset
+   • Features with spread > ₹500 = strong model candidates
+   • watch_type & ai_watch_type likely redundant → drop one
+   • is_automatic & ai_is_automatic confirmed identical
+
+📌 INSIGHT 2.8 — FEATURE QUALITY
+   • Only category column is fully reliable (0% unknown)
+   • Most columns are 🔴 Critical quality (57-89% unknown)
+   • High cardinality columns (color, dial_color, strap_color)
+     need Target Encoding in Step 3
+   • Low cardinality columns (category, gender, belt_type)
+     can use One-Hot Encoding
