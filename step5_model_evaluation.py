@@ -44,6 +44,8 @@ print(f"  Price range (test): Rs.{y_orig.min():.0f} - Rs.{y_orig.max():.0f}")
 
 # Load all saved models
 model_files = sorted(glob.glob("model_*.pkl"))
+# Exclude metadata file
+model_files = [f for f in model_files if "metadata" not in f]
 print(f"\n  Found {len(model_files)} model files: {model_files}")
 
 trained_models = {}

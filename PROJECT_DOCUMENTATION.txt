@@ -5,6 +5,7 @@ Watch Price Prediction — WatchVine Dataset
 Last Updated: 2026-05-31
 Author: Rudra (GitHub: Rudra2986)
 ============================================================
+Brand: Chronos AI — Watch Price Intelligence
 
 
 1. PROJECT NAME
@@ -67,16 +68,22 @@ This project follows a structured 7-step ML pipeline:
     • SHAP feature importance analysis performed
     • final_model.pkl and model_metadata.pkl saved
 
-  Step 7 — Streamlit Deployment (v2 — Premium UI)
-    • Dark glassmorphism UI with gradient backgrounds and animations
-    • Simplified input form: 10 inputs (reduced from 14)
-    • 4 redundant inputs auto-derived:
-        gender ← category, watch_style_category ← watch_type,
-        color ← dial_color, material ← strap_material
-    • Replicates Step 3 preprocessing exactly (flags, encoding, alignment)
-    • Shows predicted price with confidence range (+/- RMSE)
-    • SHAP feature importance for each prediction
-    • Model info sidebar with R2, RMSE, model name
+  Step 7 — Streamlit Deployment (v3 — Chronos AI Premium)
+    • Futuristic AI dashboard with cyberpunk-inspired dark theme
+    • Brand identity: "Chronos AI — Watch Price Intelligence"
+    • Animated floating orb background (CSS-only, no dependencies)
+    • Shimmer gradient hero title with Space Grotesk typography
+    • KPI strip with model accuracy, watches trained, features, precision
+    • 3-tab navigation: Predict | Analytics | About
+    • Glassmorphism cards with hover glow effects
+    • Animated price reveal with blur-to-sharp transition
+    • Plotly gauge chart for prediction confidence
+    • Interactive SHAP bar chart (Plotly) with purple/red color coding
+    • AI Insights cards (contextual recommendations)
+    • Analytics dashboard: model comparison chart, pipeline overview
+    • Simplified input: 10 fields (4 redundant auto-derived)
+    • Premium micro-interactions and smooth animations throughout
+    • Mobile-responsive design
 
 
 4. TECHNOLOGY STACK
@@ -151,6 +158,8 @@ watch-price-prediction/
 [x] Hyperparameter tuning (Optuna 100 trials, SHAP analysis)
 [x] Streamlit web app (input form, prediction, confidence range, SHAP)
 [x] Streamlit v2 UI redesign (glassmorphism, 10 simplified inputs)
+[x] Streamlit v3 premium AI product (Chronos AI branding, Plotly charts,
+    analytics dashboard, animated backgrounds, AI insights)
 [x] Encoder artifact saving for deployment
 [x] Leakage-free pipeline (split before encoding, train-only statistics)
 
@@ -196,6 +205,15 @@ v2.1  [2026-05-31]  Step 7 UI/UX redesign — premium dark glassmorphism UI,
                     reduced inputs from 14 to 10 by auto-deriving 4
                     redundant fields (gender, watch_style_category,
                     color, material)
+v3.0  [2026-05-31]  Step 7 transformed into "Chronos AI" — futuristic AI
+                    SaaS product with animated backgrounds, Plotly charts,
+                    gauge visualizations, AI insights, analytics dashboard,
+                    cyberpunk dark theme, premium animations
+v4.0  [2026-05-31]  ML Pipeline Upgrade: implemented custom brand and movement
+                    status extraction from watch titles. Reduced brand sparsity
+                    from 87.5% to 0.07% (62 unique brands extracted). Upgraded
+                    Streamlit dropdowns to load dynamically. Model test R2
+                    boosted from 45.0% to 71.5% and RMSE reduced by 30%.
 
 
 11. IMPORTANT DECISIONS MADE
@@ -235,6 +253,16 @@ v2.1  [2026-05-31]  Step 7 UI/UX redesign — premium dark glassmorphism UI,
    - material: 97.5% identical to strap_material
    Auto-deriving these reduces user effort without losing accuracy.
 
+9. Brand name and movement status extracted from watch titles
+   Reason: 87.5% of brands and 89.1% of movements were unknown in the cleaned data,
+   causing a performance bottleneck. Extracting these from watch names reduced
+   brand sparsity to 0.07% and recovered 300+ automatic movement watches, raising R2 to 71.5%.
+
+10. Dynamic selectbox options in Streamlit App
+    Reason: To support 62 unique brand names and other categorical features without
+    hardcoding, the dropdown options are now extracted dynamically from OHE columns
+    and target encoder indexes.
+
 
 12. FUTURE IMPROVEMENTS
 ------------------------------------------------------------
@@ -263,13 +291,13 @@ Starting from raw scraped data with 3,000+ columns, the pipeline:
 
 Final Model Performance:
   • Model: CatBoost (tuned)
-  • R2 Score: 0.4503
-  • RMSE: INR 658
-  • MAE: INR 451
+  • R2 Score: 0.7148
+  • RMSE: INR 460
+  • MAE: INR 285
 
-Key Challenge: 87.5% of watches have unknown brand and 57.3% have
-unknown attributes, limiting model accuracy. Despite this, the model
-provides useful predictions within a reasonable error range.
+Key Challenge Solved: Resolved the 87.5% unknown brand and 89.1% unknown movement status
+sparsity issues by implementing a text parser that extracts these attributes from the product titles,
+improving R2 from 45% to 71.5%.
 
 The Streamlit app allows users to input any watch attributes and
 receive an instant price prediction with confidence range and

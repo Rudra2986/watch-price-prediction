@@ -160,19 +160,108 @@ print("\nColumns renamed for clarity ✓")
 
 
 # ─────────────────────────────────────────────
-# 7. HANDLE MISSING VALUES
+# 7. HANDLE MISSING VALUES & FEATURE EXTRACTION
 # ─────────────────────────────────────────────
 # Different strategies for different column types:
 #
 # CATEGORICAL columns → fill with 'Unknown'
 #   Reason: 'Unknown' is itself a valid category.
-#   The model can learn "watches with unknown brand
-#   tend to be priced like X". Never fill categorical
-#   columns with mean/mode blindly.
+#   However, brand is highly missing (87.5%).
+#   We first extract the brand from the name column if it is missing.
 #
 # BOOLEAN columns (is_automatic) → fill with 'Unknown'
-#   Reason: We don't know if it's automatic or not,
-#   so 'Unknown' is more honest than guessing.
+#   We also extract automatic movement status from the name column if missing.
+
+def extract_brand(name):
+    if pd.isna(name):
+        return 'Unknown'
+    name_lower = str(name).lower().strip()
+    words = name_lower.split()
+    if not words:
+        return 'Unknown'
+    first_word = words[0]
+    
+    if 'fossi_l' in first_word or 'fossil' in first_word:
+        return 'Fossil'
+    elif 'role_x' in first_word or 'rolex' in first_word:
+        return 'Rolex'
+    elif 'casio' in first_word:
+        return 'Casio'
+    elif 'rad_o' in first_word or 'rado' in first_word:
+        return 'Rado'
+    elif 'emporio' in first_word or 'arman_i' in first_word or 'armani' in first_word:
+        return 'Armani'
+    elif 'tisso_t' in first_word or 'tissot' in first_word:
+        return 'Tissot'
+    elif 'omeg_a' in first_word or 'omega' in first_word:
+        return 'Omega'
+    elif 'hublot' in first_word or 'hublo_t' in first_word:
+        return 'Hublot'
+    elif 'seiko' in first_word:
+        return 'Seiko'
+    elif 'audemars' in first_word:
+        return 'Audemars Piguet'
+    elif 'tommy' in first_word or 'tomm_y' in first_word:
+        return 'Tommy Hilfiger'
+    elif 'patek' in first_word or 'pate_k' in first_word:
+        return 'Patek Philippe'
+    elif 'diese_l' in first_word or 'diesel' in first_word:
+        return 'Diesel'
+    elif 'guess' in first_word or 'gues_s' in first_word:
+        return 'Guess'
+    elif 'cartie_r' in first_word or 'cartier' in first_word:
+        return 'Cartier'
+    elif 'richard' in first_word:
+        return 'Richard Mille'
+    elif 'tag' in first_word:
+        return 'Tag Heuer'
+    elif 'nik_e' in first_word or 'nike' in first_word:
+        return 'Nike'
+    elif 'maserati' in first_word or 'maserat_i' in first_word:
+        return 'Maserati'
+    elif 'gucc_i' in first_word or 'gucci' in first_word:
+        return 'Gucci'
+    elif 'chane_l' in first_word or 'chanel' in first_word:
+        return 'Chanel'
+    elif 'versace' in first_word:
+        return 'Versace'
+    elif 'jacob' in first_word:
+        return 'Jacob & Co'
+    elif 'iwc' in first_word:
+        return 'IWC'
+    elif 'bvlgari' in first_word or 'bulgari' in first_word:
+        return 'Bvlgari'
+    elif 'michael_kors' in first_word or 'kors' in first_word:
+        return 'Michael Kors'
+    elif 'corum' in first_word:
+        return 'Corum'
+    elif 'oakle_y' in first_word or 'oakley' in first_word:
+        return 'Oakley'
+    elif 'boss' in first_word:
+        return 'Hugo Boss'
+    elif 'loui_s' in first_word or 'vuitton' in first_word:
+        return 'Louis Vuitton'
+    elif 'citizen' in first_word:
+        return 'Citizen'
+    elif 'maxima' in first_word:
+        return 'Maxima'
+    else:
+        for b in ['fossil', 'rolex', 'casio', 'rado', 'armani', 'tissot', 'omega', 'hublot', 'seiko', 'audemars', 'tommy', 'patek', 'diesel', 'guess', 'cartier', 'richard', 'tag', 'nike', 'maserati', 'gucci', 'chanel', 'versace', 'jacob', 'iwc', 'bvlgari', 'michael kors', 'corum', 'oakley', 'boss', 'louis vuitton', 'citizen', 'maxima']:
+            if b in name_lower:
+                if b == 'audemars': return 'Audemars Piguet'
+                if b == 'tommy': return 'Tommy Hilfiger'
+                if b == 'patek': return 'Patek Philippe'
+                if b == 'richard': return 'Richard Mille'
+                if b == 'tag': return 'Tag Heuer'
+                return b.title()
+        if len(first_word) > 2 and first_word not in ['mens', 'ladies', 'boys', 'girls', 'watch', 'watches', 'classic', 'new', 'luxury', 'analog', 'digital']:
+            return first_word.title()
+        return 'Unknown'
+
+# Extract and fill brand
+df['extracted_brand'] = df['name'].apply(extract_brand)
+df['brand'] = df['brand'].fillna(df['extracted_brand'])
+df.drop(columns=['extracted_brand'], inplace=True, errors='ignore')
 
 categorical_cols = [
     'brand', 'color', 'style', 'material', 'gender',
@@ -185,23 +274,28 @@ for col in categorical_cols:
     if col in df.columns:
         df[col] = df[col].fillna('Unknown')
 
-# is_automatic has mixed types (True/False/NaN)
-# Standardize it to string: 'Yes', 'No', 'Unknown'
-def clean_is_automatic(val):
-    if pd.isna(val):
-        return 'Unknown'
-    v = str(val).strip().lower()
-    if v in ('true', '1', 'yes'):
+# Clean is_automatic checking both current status and name keywords
+def clean_is_automatic_with_name(row, col_name):
+    val = row[col_name]
+    name = str(row['name']).lower()
+    
+    if not pd.isna(val):
+        v = str(val).strip().lower()
+        if v in ('true', '1', 'yes'):
+            return 'Yes'
+        if v in ('false', '0', 'no'):
+            return 'No'
+            
+    if any(keyword in name for keyword in ['automatic', 'meccanico', 'skeleton', 'self-winding']):
         return 'Yes'
-    if v in ('false', '0', 'no'):
-        return 'No'
+        
     return 'Unknown'
 
 for col in ['is_automatic', 'ai_is_automatic']:
     if col in df.columns:
-        df[col] = df[col].apply(clean_is_automatic)
+        df[col] = df.apply(lambda r: clean_is_automatic_with_name(r, col), axis=1)
 
-print("\nMissing values handled ✓")
+print("\nMissing values handled & feature extraction complete ✓")
 print(f"Missing values remaining :\n{df.isnull().sum()[df.isnull().sum() > 0]}")
 
 
