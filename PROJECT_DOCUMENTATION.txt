@@ -113,6 +113,7 @@ watch-price-prediction/
 |-- .gitignore                          # Git ignore rules
 |-- README.md                           # Repository readme
 |-- PROJECT_DOCUMENTATION.txt           # This file
+|-- requirements.txt                    # Dependencies list for deployment
 |
 |-- step1_Data_cleaning.py              # Step 1: Data cleaning
 |-- step2_eda.py                        # Step 2: EDA
