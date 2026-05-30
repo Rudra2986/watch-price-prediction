@@ -1,0 +1,30 @@
+# ============================================================
+# Watch Price Prediction — .gitignore
+# ============================================================
+
+# ── Private / Reference Files ────────────────────────────────
+summary.pdf
+
+# ── Python ───────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ── CatBoost Training Logs ──────────────────────────────────
+catboost_info/
+
+# ── IDE / Editor ─────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── OS Files ─────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini

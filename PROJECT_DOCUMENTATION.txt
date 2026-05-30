@@ -1,0 +1,264 @@
+============================================================
+PROJECT DOCUMENTATION
+Watch Price Prediction — WatchVine Dataset
+============================================================
+Last Updated: 2026-05-30
+Author: Rudra (GitHub: Rudra2986)
+============================================================
+
+
+1. PROJECT NAME
+------------------------------------------------------------
+Watch Price Prediction (WatchVine Dataset)
+
+
+2. PROJECT OBJECTIVE
+------------------------------------------------------------
+Build a machine learning regression model to predict the
+price of watches (in INR) based on product attributes
+scraped from the WatchVine Indian e-commerce platform.
+The final deliverable is a Streamlit web application where
+users can input watch attributes and receive an instant
+price prediction.
+
+
+3. COMPLETE PROJECT OVERVIEW
+------------------------------------------------------------
+This project follows a structured 7-step ML pipeline:
+
+  Step 1 — Data Cleaning
+    • Raw scraped data (3000+ columns) cleaned to 18 columns
+    • Price fixed from string to float, leakage column dropped
+    • Missing categoricals filled with 'unknown', text normalized
+
+  Step 2 — Exploratory Data Analysis (EDA)
+    • 25 plots generated analyzing price distribution, brands,
+      categorical features, correlations, and feature quality
+    • Key finding: 87.5% of watches have unknown brand
+    • Key finding: Price is right-skewed, log transform needed
+    • Key finding: is_automatic == ai_is_automatic (100% identical)
+
+  Step 3 — Feature Engineering
+    • Dropped 3 redundant columns (ai_is_automatic, ai_watch_type, name)
+    • Created 3 binary flag columns (has_brand, has_details, has_watch_type)
+    • Encoded is_automatic: yes=1, no=0, unknown=-1
+    • One-Hot Encoded 10 low/medium cardinality columns
+    • Target Encoded 3 high-cardinality columns (color, dial_color, strap_color)
+    • Train/test split (80/20) done BEFORE encoding (leakage-free)
+    • Log-transformed target: log_price = np.log1p(price)
+    • Saved encoder artifacts for deployment (target_encoders.pkl, train_columns.pkl)
+
+  Step 4 — Model Building
+    • Trained 6 regression models with 5-fold cross-validation
+    • Models: Linear Regression, Ridge, Random Forest, XGBoost, LightGBM, CatBoost
+    • Linear/Ridge models use StandardScaler via Pipeline
+    • All models saved as .pkl files
+
+  Step 5 — Model Evaluation
+    • Evaluated all 6 models on held-out test set (298 rows)
+    • Metrics: R2, RMSE (log), MAE (log), RMSE (INR), MAE (INR)
+    • Top 2 models identified: CatBoost (R2=0.4544) and Random Forest (R2=0.4273)
+    • 5 evaluation plots generated
+
+  Step 6 — Hyperparameter Tuning
+    • Used Optuna (Bayesian optimization) with 100 trials for CatBoost
+    • Best params: iterations=540, depth=5, learning_rate=0.0465
+    • Final model: CatBoost with R2=0.4503, RMSE=INR 658 on test set
+    • SHAP feature importance analysis performed
+    • final_model.pkl and model_metadata.pkl saved
+
+  Step 7 — Streamlit Deployment
+    • Interactive web app for real-time price prediction
+    • Input form with dropdowns for 14 watch attributes
+    • Replicates Step 3 preprocessing exactly (flags, encoding, alignment)
+    • Shows predicted price with confidence range (+/- RMSE)
+    • SHAP feature importance for each prediction
+    • Model info sidebar with R2, RMSE, model name
+
+
+4. TECHNOLOGY STACK
+------------------------------------------------------------
+Language        : Python 3.11
+IDE             : VS Code
+OS              : Windows
+Version Control : Git + GitHub
+
+Core Libraries:
+  • pandas, numpy               — Data manipulation
+  • scikit-learn                 — ML models, preprocessing, evaluation
+  • xgboost                     — XGBoost gradient boosting
+  • lightgbm                    — LightGBM gradient boosting
+  • catboost                    — CatBoost gradient boosting
+  • optuna                      — Bayesian hyperparameter optimization
+  • shap                        — Model explainability
+  • matplotlib, seaborn         — Visualization
+  • streamlit                   — Web app deployment
+  • joblib                      — Model serialization
+
+
+5. FOLDER STRUCTURE
+------------------------------------------------------------
+watch-price-prediction/
+|
+|-- .gitignore                          # Git ignore rules
+|-- README.md                           # Repository readme
+|-- PROJECT_DOCUMENTATION.txt           # This file
+|
+|-- step1_Data_cleaning.py              # Step 1: Data cleaning
+|-- step2_eda.py                        # Step 2: EDA
+|-- step3_feature_engineering.py        # Step 3: Feature engineering
+|-- step4_model_building.py             # Step 4: Model building
+|-- step5_model_evaluation.py           # Step 5: Model evaluation
+|-- step6_hyperparameter_tuning.py      # Step 6: Hyperparameter tuning
+|-- step7_streamlit_app.py              # Step 7: Streamlit web app
+|
+|-- watchvine_refined.products.csv      # Raw dataset (~19 MB)
+|-- watchvine_cleaned.csv               # Cleaned dataset (Step 1 output)
+|-- watchvine_train_X.csv               # Training features (Step 3 output)
+|-- watchvine_test_X.csv                # Test features (Step 3 output)
+|-- watchvine_train_y.csv               # Training targets (Step 3 output)
+|-- watchvine_test_y.csv                # Test targets (Step 3 output)
+|-- watchvine_features.csv              # Combined reference file
+|
+|-- target_encoders.pkl                 # Target encoding mappings
+|-- train_columns.pkl                   # Training column order (96 cols)
+|-- model_metadata.pkl                  # Final model metadata
+|-- top_models.pkl                      # Top 2 model names from Step 5
+|-- final_model.pkl                     # Final tuned CatBoost model
+|-- model_CatBoost.pkl                  # Baseline CatBoost
+|-- model_LightGBM.pkl                  # Baseline LightGBM
+|-- model_XGBoost.pkl                   # Baseline XGBoost
+|-- model_Random_Forest.pkl             # Baseline Random Forest
+|-- model_Linear_Regression.pkl         # Linear Regression + scaler
+|-- model_Ridge.pkl                     # Ridge Regression + scaler
+|
+|-- eda_plots/                          # 25 EDA charts (Step 2)
+|-- eda_insights.txt                    # EDA insights summary
+|-- evaluation_plots/                   # 5 evaluation charts (Step 5)
+|-- tuning_plots/                       # 4 tuning + SHAP charts (Step 6)
+
+
+6. FEATURES IMPLEMENTED
+------------------------------------------------------------
+[x] Data cleaning (3000+ cols to 18 cols, price fixing, text normalization)
+[x] Exploratory data analysis (25 plots, unknown% analysis, correlation)
+[x] Feature engineering (flags, encoding, log transform, train/test split)
+[x] Model building (6 models with 5-fold CV)
+[x] Model evaluation (4 metrics, 5 plots, top 2 selection)
+[x] Hyperparameter tuning (Optuna 100 trials, SHAP analysis)
+[x] Streamlit web app (input form, prediction, confidence range, SHAP)
+[x] Encoder artifact saving for deployment
+[x] Leakage-free pipeline (split before encoding, train-only statistics)
+
+
+7. CURRENT PROGRESS STATUS
+------------------------------------------------------------
+Step 1 — Data Cleaning                : COMPLETE
+Step 2 — EDA                          : COMPLETE
+Step 3 — Feature Engineering           : COMPLETE
+Step 4 — Model Building                : COMPLETE
+Step 5 — Model Evaluation              : COMPLETE
+Step 6 — Hyperparameter Tuning         : COMPLETE
+Step 7 — Streamlit Deployment          : COMPLETE
+
+Overall Status: ALL STEPS COMPLETE
+
+
+8. PENDING TASKS
+------------------------------------------------------------
+  • None — all 7 steps are complete.
+  • Optional: Update README.md with detailed project description
+  • Optional: Deploy Streamlit app to Streamlit Cloud
+
+
+9. BUG FIXES
+------------------------------------------------------------
+[2026-05-30] Step 3 — Added missing joblib import and saving of
+             target_encoders.pkl and train_columns.pkl.
+             These artifacts are required by Step 7 for deployment
+             but were not being saved in the original code.
+
+
+10. VERSION HISTORY
+------------------------------------------------------------
+v1.0  [2026-05-30]  Initial project setup + Step 1 (Data Cleaning)
+v1.1  [2026-05-30]  Step 2 (EDA) complete — 25 plots + insights
+v1.2  [2026-05-30]  Step 3 (Feature Engineering) complete
+v2.0  [2026-05-30]  Steps 4-7 complete — Model Building, Evaluation,
+                    Hyperparameter Tuning, Streamlit Deployment
+                    Step 3 fix — encoder artifacts saved for deployment
+                    .gitignore and PROJECT_DOCUMENTATION.txt added
+
+
+11. IMPORTANT DECISIONS MADE
+------------------------------------------------------------
+1. 'unknown' kept as valid category (NOT imputed)
+   Reason: 57-89% of data is unknown. Imputing would inject fake data
+   into the majority of rows.
+
+2. Log transform on price (target variable)
+   Reason: Price is right-skewed. log1p(price) makes it more normal,
+   improving model performance and reducing outlier influence.
+
+3. Train/test split BEFORE encoding
+   Reason: Target encoding uses price statistics. Encoding before
+   splitting would leak test information into training.
+
+4. is_automatic encoded as 1/0/-1 (not 1/0)
+   Reason: -1 keeps "unknown" distinct from "definitely not automatic".
+   Tree-based models handle -1 naturally.
+
+5. CatBoost selected as final model
+   Reason: Best R2 on both cross-validation (0.3768) and test set
+   (0.4503 after tuning). Handles categorical features well.
+
+6. StandardScaler applied only to Linear/Ridge models
+   Reason: Tree-based models (XGBoost, LightGBM, CatBoost, RF) are
+   scale-invariant by design and don't need scaling.
+
+7. random_state=42 used everywhere
+   Reason: Reproducibility across all steps and models.
+
+
+12. FUTURE IMPROVEMENTS
+------------------------------------------------------------
+  • Collect more data — 1,488 rows with 87.5% unknown brands is limiting
+  • Try deep learning approaches if dataset grows significantly
+  • Add more features: text embeddings from product names, image features
+  • Deploy to Streamlit Cloud for public access
+  • Add model retraining pipeline for new data
+  • Explore stacking/blending of top models
+  • Add A/B testing framework for model comparison in production
+
+
+13. COMPLETE PROJECT SUMMARY
+------------------------------------------------------------
+This Summer Internship project builds an end-to-end ML pipeline for
+predicting watch prices from the WatchVine e-commerce dataset.
+
+Starting from raw scraped data with 3,000+ columns, the pipeline:
+1. Cleans data down to 1,488 rows x 18 meaningful columns
+2. Performs comprehensive EDA with 25 visualizations
+3. Engineers 96 features using one-hot and target encoding
+4. Trains 6 regression models (Linear, Ridge, RF, XGBoost, LightGBM, CatBoost)
+5. Evaluates all models on a held-out test set
+6. Tunes the best model (CatBoost) with Optuna (100 trials)
+7. Deploys as a Streamlit web app with real-time prediction
+
+Final Model Performance:
+  • Model: CatBoost (tuned)
+  • R2 Score: 0.4503
+  • RMSE: INR 658
+  • MAE: INR 451
+
+Key Challenge: 87.5% of watches have unknown brand and 57.3% have
+unknown attributes, limiting model accuracy. Despite this, the model
+provides useful predictions within a reasonable error range.
+
+The Streamlit app allows users to input any watch attributes and
+receive an instant price prediction with confidence range and
+SHAP-based feature importance explanation.
+
+============================================================
+END OF PROJECT DOCUMENTATION
+============================================================
