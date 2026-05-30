@@ -2,7 +2,7 @@
 PROJECT DOCUMENTATION
 Watch Price Prediction — WatchVine Dataset
 ============================================================
-Last Updated: 2026-05-30
+Last Updated: 2026-05-31
 Author: Rudra (GitHub: Rudra2986)
 ============================================================
 
@@ -67,9 +67,12 @@ This project follows a structured 7-step ML pipeline:
     • SHAP feature importance analysis performed
     • final_model.pkl and model_metadata.pkl saved
 
-  Step 7 — Streamlit Deployment
-    • Interactive web app for real-time price prediction
-    • Input form with dropdowns for 14 watch attributes
+  Step 7 — Streamlit Deployment (v2 — Premium UI)
+    • Dark glassmorphism UI with gradient backgrounds and animations
+    • Simplified input form: 10 inputs (reduced from 14)
+    • 4 redundant inputs auto-derived:
+        gender ← category, watch_style_category ← watch_type,
+        color ← dial_color, material ← strap_material
     • Replicates Step 3 preprocessing exactly (flags, encoding, alignment)
     • Shows predicted price with confidence range (+/- RMSE)
     • SHAP feature importance for each prediction
@@ -147,6 +150,7 @@ watch-price-prediction/
 [x] Model evaluation (4 metrics, 5 plots, top 2 selection)
 [x] Hyperparameter tuning (Optuna 100 trials, SHAP analysis)
 [x] Streamlit web app (input form, prediction, confidence range, SHAP)
+[x] Streamlit v2 UI redesign (glassmorphism, 10 simplified inputs)
 [x] Encoder artifact saving for deployment
 [x] Leakage-free pipeline (split before encoding, train-only statistics)
 
@@ -188,6 +192,10 @@ v2.0  [2026-05-30]  Steps 4-7 complete — Model Building, Evaluation,
                     Hyperparameter Tuning, Streamlit Deployment
                     Step 3 fix — encoder artifacts saved for deployment
                     .gitignore and PROJECT_DOCUMENTATION.txt added
+v2.1  [2026-05-31]  Step 7 UI/UX redesign — premium dark glassmorphism UI,
+                    reduced inputs from 14 to 10 by auto-deriving 4
+                    redundant fields (gender, watch_style_category,
+                    color, material)
 
 
 11. IMPORTANT DECISIONS MADE
@@ -218,6 +226,14 @@ v2.0  [2026-05-30]  Steps 4-7 complete — Model Building, Evaluation,
 
 7. random_state=42 used everywhere
    Reason: Reproducibility across all steps and models.
+
+8. Streamlit inputs reduced from 14 to 10
+   Reason: Data analysis showed 4 fields are redundant:
+   - gender: derivable from category (men's watch = men)
+   - watch_style_category: 100% identical to watch_type
+   - color: 95.6% identical to dial_color
+   - material: 97.5% identical to strap_material
+   Auto-deriving these reduces user effort without losing accuracy.
 
 
 12. FUTURE IMPROVEMENTS
