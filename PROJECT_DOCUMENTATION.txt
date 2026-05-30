@@ -163,6 +163,8 @@ watch-price-prediction/
     analytics dashboard, animated backgrounds, AI insights)
 [x] Encoder artifact saving for deployment
 [x] Leakage-free pipeline (split before encoding, train-only statistics)
+[x] Mobile responsive UI layout and styling
+[x] Interactive time-synchronized 3D watch face using Three.js
 
 
 7. CURRENT PROGRESS STATUS
@@ -215,6 +217,13 @@ v4.0  [2026-05-31]  ML Pipeline Upgrade: implemented custom brand and movement
                     from 87.5% to 0.07% (49 unique brands consolidated). Upgraded
                     Streamlit dropdowns to load dynamically. Model test R2
                     boosted from 45.0% to 71.2% and RMSE reduced by 30%.
+v4.1  [2026-05-31]  Consolidated brand names to 49 options (cleaned noise like
+                    plural forms, typos, and variations). Fixed category selection
+                    bug where Women's watches were not mapped correctly.
+v4.2  [2026-05-31]  Added complete mobile responsiveness with CSS media queries.
+                    Stacked flex container rows on screens < 768px and adjusted typography
+                    sizes. Integrated a mouse-interactive, time-synced 3D watch wireframe
+                    using Three.js CDN component inside a responsive Hero layout.
 
 
 11. IMPORTANT DECISIONS MADE
@@ -263,6 +272,11 @@ v4.0  [2026-05-31]  ML Pipeline Upgrade: implemented custom brand and movement
     Reason: To support 62 unique brand names and other categorical features without
     hardcoding, the dropdown options are now extracted dynamically from OHE columns
     and target encoder indexes.
+
+11. Responsive layout and Three.js 3D integration
+    Reason: To make the app compatible with mobile browsers, flex rows are wrapped
+    under media queries. A Three.js wireframe watch is embedded inside a responsive column
+    to create an interactive, eye-catching visual centerpiece.
 
 
 12. FUTURE IMPROVEMENTS

@@ -365,6 +365,39 @@ st.markdown("""
     .delay-2 { animation-delay: 0.2s; }
     .delay-3 { animation-delay: 0.3s; }
     .delay-4 { animation-delay: 0.4s; }
+
+    /* ── Mobile Responsiveness ───────────────── */
+    @media (max-width: 768px) {
+        .hero-section {
+            text-align: center !important;
+            padding: 20px 0 !important;
+        }
+        .hero-title {
+            font-size: 2.2rem !important;
+        }
+        .hero-sub {
+            font-size: 0.9rem !important;
+            max-width: 100% !important;
+        }
+        .kpi-row {
+            flex-direction: column !important;
+            gap: 12px !important;
+        }
+        .metrics-row {
+            flex-direction: column !important;
+            gap: 10px !important;
+        }
+        .stTabs [data-baseweb="tab"] {
+            padding: 8px 16px !important;
+            font-size: 0.8rem !important;
+        }
+        .result-price {
+            font-size: 2.5rem !important;
+        }
+        .g-card {
+            padding: 20px !important;
+        }
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -437,16 +470,249 @@ strap_color_options = ["Unknown"] + strap_color_options
 # HERO SECTION
 # ============================================================
 
-st.markdown(f"""
-<div class="hero-section">
-    <div class="brand-badge">⚡ Powered by {model_name} AI</div>
-    <h1 class="hero-title">Chronos AI</h1>
-    <p class="hero-sub">
-        Intelligent watch price prediction — trained on 1,488 watches
-        from the WatchVine marketplace
-    </p>
-</div>
-""", unsafe_allow_html=True)
+# ── Hero Section (Two Columns: Info & 3D Interactive Watch) ──
+col_hero_left, col_hero_right = st.columns([1.2, 1], gap="large")
+
+with col_hero_left:
+    st.markdown(f"""
+    <div class="hero-section" style="text-align: left; padding: 40px 0 20px 0;">
+        <div class="brand-badge">⚡ Powered by {model_name} AI</div>
+        <h1 class="hero-title">Chronos AI</h1>
+        <p class="hero-sub" style="margin-top: 15px; max-width: 500px;">
+            Intelligent watch price prediction — trained on 1,488 watches
+            from the WatchVine marketplace. Hover or touch to rotate the interactive 3D timepiece.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col_hero_right:
+    # 3D Interactive Watch Component (Three.js)
+    watch_3d_html = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: transparent;
+        }
+        #canvas-container {
+            width: 100%;
+            height: 320px;
+            position: relative;
+            cursor: grab;
+        }
+        #canvas-container:active {
+            cursor: grabbing;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    </head>
+    <body>
+    <div id="canvas-container"></div>
+    <script>
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        
+        const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.z = 8;
+
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+
+        const watchGroup = new THREE.Group();
+        scene.add(watchGroup);
+
+        // Materials
+        const purpleMaterial = new THREE.MeshBasicMaterial({ color: 0x8b5cf6, wireframe: true, transparent: true, opacity: 0.85 });
+        const cyanMaterial = new THREE.MeshBasicMaterial({ color: 0x06b6d4, wireframe: true, transparent: true, opacity: 0.85 });
+        const pinkMaterial = new THREE.MeshBasicMaterial({ color: 0xec4899, transparent: true, opacity: 0.9 });
+        const dialMaterial = new THREE.MeshBasicMaterial({ color: 0x1e1b4b, transparent: true, opacity: 0.3 });
+        const ticksMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.7 });
+
+        // Bezel / Case
+        const bezelGeom = new THREE.TorusGeometry(1.6, 0.15, 8, 48);
+        const bezel = new THREE.Mesh(bezelGeom, purpleMaterial);
+        watchGroup.add(bezel);
+        
+        const bezelInnerGeom = new THREE.TorusGeometry(1.4, 0.05, 8, 48);
+        const bezelInner = new THREE.Mesh(bezelInnerGeom, cyanMaterial);
+        watchGroup.add(bezelInner);
+
+        // Dial Face
+        const dialGeom = new THREE.CylinderGeometry(1.35, 1.35, 0.05, 32);
+        dialGeom.rotateX(Math.PI / 2);
+        const dial = new THREE.Mesh(dialGeom, dialMaterial);
+        watchGroup.add(dial);
+
+        // Hour Ticks
+        const ticksGroup = new THREE.Group();
+        for (let i = 0; i < 12; i++) {
+            const angle = (i * Math.PI * 2) / 12;
+            const size = (i % 3 === 0) ? 0.2 : 0.08;
+            const tickGeom = new THREE.BoxGeometry(0.04, size, 0.04);
+            const tick = new THREE.Mesh(tickGeom, ticksMaterial);
+            tick.position.x = Math.sin(angle) * 1.25;
+            tick.position.y = Math.cos(angle) * 1.25;
+            tick.rotation.z = -angle;
+            ticksGroup.add(tick);
+        }
+        watchGroup.add(ticksGroup);
+
+        // Strap Lugs and Bands
+        const strapTopGeom = new THREE.BoxGeometry(0.8, 1.2, 0.1);
+        const strapTop = new THREE.Mesh(strapTopGeom, purpleMaterial);
+        strapTop.position.y = 2.1;
+        strapTop.position.z = -0.15;
+        strapTop.rotation.x = -0.15;
+        watchGroup.add(strapTop);
+
+        const strapBottomGeom = new THREE.BoxGeometry(0.8, 1.2, 0.1);
+        const strapBottom = new THREE.Mesh(strapBottomGeom, purpleMaterial);
+        strapBottom.position.y = -2.1;
+        strapBottom.position.z = -0.15;
+        strapBottom.rotation.x = 0.15;
+        watchGroup.add(strapBottom);
+
+        // Crown
+        const crownGeom = new THREE.CylinderGeometry(0.15, 0.15, 0.25, 12);
+        const crown = new THREE.Mesh(crownGeom, cyanMaterial);
+        crown.position.x = 1.75;
+        crown.rotation.z = -Math.PI / 2;
+        watchGroup.add(crown);
+
+        // Hands Group (offset pivots for proper rotation)
+        const hourHandGeom = new THREE.BoxGeometry(0.08, 0.75, 0.02);
+        hourHandGeom.translate(0, 0.375, 0.02);
+        const hourHand = new THREE.Mesh(hourHandGeom, purpleMaterial);
+        watchGroup.add(hourHand);
+
+        const minHandGeom = new THREE.BoxGeometry(0.06, 1.1, 0.02);
+        minHandGeom.translate(0, 0.55, 0.04);
+        const minHand = new THREE.Mesh(minHandGeom, cyanMaterial);
+        watchGroup.add(minHand);
+
+        const secHandGeom = new THREE.BoxGeometry(0.02, 1.25, 0.01);
+        secHandGeom.translate(0, 0.625, 0.06);
+        const secHand = new THREE.Mesh(secHandGeom, pinkMaterial);
+        watchGroup.add(secHand);
+
+        // Background Particles
+        const particlesCount = 50;
+        const particlesGeom = new THREE.BufferGeometry();
+        const positions = new Float32Array(particlesCount * 3);
+        const speeds = [];
+
+        for (let i = 0; i < particlesCount; i++) {
+            positions[i * 3] = (Math.random() - 0.5) * 8;
+            positions[i * 3 + 1] = (Math.random() - 0.5) * 8;
+            positions[i * 3 + 2] = (Math.random() - 0.5) * 6 - 2;
+            speeds.push({
+                x: (Math.random() - 0.5) * 0.005,
+                y: (Math.random() - 0.5) * 0.005,
+                z: (Math.random() - 0.5) * 0.005
+            });
+        }
+
+        particlesGeom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        const pMaterial = new THREE.PointsMaterial({
+            color: 0x06b6d4,
+            size: 0.05,
+            transparent: true,
+            opacity: 0.5
+        });
+        const starField = new THREE.Points(particlesGeom, pMaterial);
+        scene.add(starField);
+
+        // Interaction state
+        let targetX = 0, targetY = 0;
+
+        window.addEventListener('mousemove', (e) => {
+            const rect = container.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+                targetX = (x / rect.width) * 2 - 1;
+                targetY = -(y / rect.height) * 2 + 1;
+            }
+        });
+
+        window.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 0) {
+                const rect = container.getBoundingClientRect();
+                const x = e.touches[0].clientX - rect.left;
+                const y = e.touches[0].clientY - rect.top;
+                if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+                    targetX = (x / rect.width) * 2 - 1;
+                    targetY = -(y / rect.height) * 2 + 1;
+                }
+            }
+        });
+
+        window.addEventListener('mouseleave', () => {
+            targetX = 0;
+            targetY = 0;
+        });
+
+        const animate = () => {
+            requestAnimationFrame(animate);
+
+            // Time calculations
+            const now = new Date();
+            const hrs = now.getHours() % 12;
+            const mins = now.getMinutes();
+            const secs = now.getSeconds();
+            const ms = now.getMilliseconds();
+
+            const hrAngle = -((hrs + mins / 60) * (2 * Math.PI / 12));
+            const minAngle = -((mins + secs / 60) * (2 * Math.PI / 60));
+            const secAngle = -((secs + ms / 1000) * (2 * Math.PI / 60));
+
+            hourHand.rotation.z = hrAngle;
+            minHand.rotation.z = minAngle;
+            secHand.rotation.z = secAngle;
+
+            // Base rotation spin
+            const baseSpin = Date.now() * 0.0003;
+            
+            // Mouse tracking + base floating spin
+            watchGroup.rotation.y += (targetX * 0.6 + Math.sin(baseSpin) * 0.15 - watchGroup.rotation.y) * 0.05;
+            watchGroup.rotation.x += (targetY * 0.4 + Math.cos(baseSpin) * 0.1 - watchGroup.rotation.x) * 0.05;
+
+            // Particles animation
+            const posAttr = starField.geometry.attributes.position;
+            for (let i = 0; i < particlesCount; i++) {
+                posAttr.array[i * 3] += speeds[i].x;
+                posAttr.array[i * 3 + 1] += speeds[i].y;
+                posAttr.array[i * 3 + 2] += speeds[i].z;
+
+                if (Math.abs(posAttr.array[i * 3]) > 4) posAttr.array[i * 3] = -posAttr.array[i * 3];
+                if (Math.abs(posAttr.array[i * 3 + 1]) > 4) posAttr.array[i * 3 + 1] = -posAttr.array[i * 3 + 1];
+                if (Math.abs(posAttr.array[i * 3 + 2] + 2) > 4) posAttr.array[i * 3 + 2] = -2;
+            }
+            starField.geometry.attributes.position.needsUpdate = true;
+
+            renderer.render(scene, camera);
+        };
+
+        window.addEventListener('resize', () => {
+            const w = container.clientWidth;
+            const h = container.clientHeight;
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+            renderer.setSize(w, h);
+        });
+
+        animate();
+    </script>
+    </body>
+    </html>
+    """
+    import streamlit.components.v1 as components
+    components.html(watch_3d_html, height=350)
 
 # ── KPI Strip ────────────────────────────────────────────────
 st.markdown(f"""
