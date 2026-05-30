@@ -439,7 +439,7 @@ strap_color_options = ["Unknown"] + strap_color_options
 
 st.markdown(f"""
 <div class="hero-section">
-    <div class="brand-badge">⚡ Powered by CatBoost AI</div>
+    <div class="brand-badge">⚡ Powered by {model_name} AI</div>
     <h1 class="hero-title">Chronos AI</h1>
     <p class="hero-sub">
         Intelligent watch price prediction — trained on 1,488 watches
@@ -847,14 +847,14 @@ with tab_analytics:
     """, unsafe_allow_html=True)
 
     models_data = {
-        "CatBoost": 0.4544, "Random Forest": 0.4273,
-        "XGBoost": 0.4209, "Ridge": 0.4121,
-        "Linear Reg.": 0.4120, "LightGBM": 0.3941,
+        "XGBoost": 0.7079, "CatBoost": 0.7004,
+        "Random Forest": 0.6945, "Ridge": 0.5629,
+        "Linear Reg.": 0.5629, "LightGBM": 0.5460,
     }
 
     m_names = list(models_data.keys())[::-1]
     m_scores = list(models_data.values())[::-1]
-    m_colors = ["#8b5cf6" if n == "CatBoost" else "rgba(139,92,246,0.25)" for n in m_names]
+    m_colors = ["#8b5cf6" if n == model_name else "rgba(139,92,246,0.25)" for n in m_names]
 
     fig_comp = go.Figure(go.Bar(
         x=m_scores, y=m_names, orientation="h",
@@ -874,7 +874,7 @@ with tab_analytics:
         font=dict(color="rgba(255,255,255,0.6)", size=12),
         xaxis=dict(
             gridcolor="rgba(255,255,255,0.04)",
-            range=[0, 0.55],
+            range=[0, 0.85],
             title="R² Score (higher is better)",
         ),
         yaxis=dict(gridcolor="rgba(255,255,255,0.02)"),
@@ -894,8 +894,8 @@ with tab_analytics:
     pipeline_steps = [
         ("🧹", "Data Cleaning", "3,000+ → 18 cols"),
         ("🔍", "EDA", "25 plots, insights"),
-        ("⚙️", "Feature Eng.", "96 features built"),
-        ("🤖", "Model + Tuning", "CatBoost, Optuna"),
+        ("⚙️", "Feature Eng.", f"{len(train_cols)} features built"),
+        ("🤖", "Model + Tuning", f"{model_name}, Optuna"),
     ]
     for col, (icon, title, desc) in zip(pipe_cols, pipeline_steps):
         col.markdown(f"""
@@ -909,11 +909,11 @@ with tab_analytics:
     # ── Data Quality Note ────────────────────────────────────
     st.markdown("""
     <div class="insight-card" style="margin-top:20px;">
-        <div class="icon">⚠️</div>
+        <div class="icon">💡</div>
         <div class="text">
-            <strong>Data quality challenge:</strong> 87.5% of watches have unknown brand and
-            57.3% lack attribute details. The model treats 'unknown' as a valid category,
-            which limits R² but prevents data fabrication.
+            <strong>Extraction Breakthrough:</strong> Watch brand and movement status were extracted
+            from the product titles, reducing unknown brands from 87.5% to 0.07% and recovering 300+
+            automatic watches. This boosted $R^2$ model accuracy from 45% to 71.2%.
         </div>
     </div>
     """, unsafe_allow_html=True)

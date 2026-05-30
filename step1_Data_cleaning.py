@@ -179,84 +179,101 @@ def extract_brand(name):
     words = name_lower.split()
     if not words:
         return 'Unknown'
-    first_word = words[0]
     
-    if 'fossi_l' in first_word or 'fossil' in first_word:
-        return 'Fossil'
-    elif 'role_x' in first_word or 'rolex' in first_word:
-        return 'Rolex'
-    elif 'casio' in first_word:
-        return 'Casio'
-    elif 'rad_o' in first_word or 'rado' in first_word:
-        return 'Rado'
-    elif 'emporio' in first_word or 'arman_i' in first_word or 'armani' in first_word:
-        return 'Armani'
-    elif 'tisso_t' in first_word or 'tissot' in first_word:
-        return 'Tissot'
-    elif 'omeg_a' in first_word or 'omega' in first_word:
-        return 'Omega'
-    elif 'hublot' in first_word or 'hublo_t' in first_word:
-        return 'Hublot'
-    elif 'seiko' in first_word:
-        return 'Seiko'
-    elif 'audemars' in first_word:
-        return 'Audemars Piguet'
-    elif 'tommy' in first_word or 'tomm_y' in first_word:
-        return 'Tommy Hilfiger'
-    elif 'patek' in first_word or 'pate_k' in first_word:
-        return 'Patek Philippe'
-    elif 'diese_l' in first_word or 'diesel' in first_word:
-        return 'Diesel'
-    elif 'guess' in first_word or 'gues_s' in first_word:
-        return 'Guess'
-    elif 'cartie_r' in first_word or 'cartier' in first_word:
-        return 'Cartier'
-    elif 'richard' in first_word:
-        return 'Richard Mille'
-    elif 'tag' in first_word:
-        return 'Tag Heuer'
-    elif 'nik_e' in first_word or 'nike' in first_word:
-        return 'Nike'
-    elif 'maserati' in first_word or 'maserat_i' in first_word:
-        return 'Maserati'
-    elif 'gucc_i' in first_word or 'gucci' in first_word:
-        return 'Gucci'
-    elif 'chane_l' in first_word or 'chanel' in first_word:
-        return 'Chanel'
-    elif 'versace' in first_word:
-        return 'Versace'
-    elif 'jacob' in first_word:
-        return 'Jacob & Co'
-    elif 'iwc' in first_word:
-        return 'IWC'
-    elif 'bvlgari' in first_word or 'bulgari' in first_word:
-        return 'Bvlgari'
-    elif 'michael_kors' in first_word or 'kors' in first_word:
-        return 'Michael Kors'
-    elif 'corum' in first_word:
-        return 'Corum'
-    elif 'oakle_y' in first_word or 'oakley' in first_word:
-        return 'Oakley'
-    elif 'boss' in first_word:
-        return 'Hugo Boss'
-    elif 'loui_s' in first_word or 'vuitton' in first_word:
-        return 'Louis Vuitton'
-    elif 'citizen' in first_word:
-        return 'Citizen'
-    elif 'maxima' in first_word:
-        return 'Maxima'
-    else:
-        for b in ['fossil', 'rolex', 'casio', 'rado', 'armani', 'tissot', 'omega', 'hublot', 'seiko', 'audemars', 'tommy', 'patek', 'diesel', 'guess', 'cartier', 'richard', 'tag', 'nike', 'maserati', 'gucci', 'chanel', 'versace', 'jacob', 'iwc', 'bvlgari', 'michael kors', 'corum', 'oakley', 'boss', 'louis vuitton', 'citizen', 'maxima']:
-            if b in name_lower:
-                if b == 'audemars': return 'Audemars Piguet'
-                if b == 'tommy': return 'Tommy Hilfiger'
-                if b == 'patek': return 'Patek Philippe'
-                if b == 'richard': return 'Richard Mille'
-                if b == 'tag': return 'Tag Heuer'
-                return b.title()
-        if len(first_word) > 2 and first_word not in ['mens', 'ladies', 'boys', 'girls', 'watch', 'watches', 'classic', 'new', 'luxury', 'analog', 'digital']:
-            return first_word.title()
-        return 'Unknown'
+    brand_mappings = {
+        'rolex': 'Rolex',
+        'role_x': 'Rolex',
+        'omega': 'Omega',
+        'omeg_a': 'Omega',
+        'fossil': 'Fossil',
+        'fossi_l': 'Fossil',
+        'fossi': 'Fossil',
+        'rado': 'Rado',
+        'rad_o': 'Rado',
+        'armani': 'Armani',
+        'arman_i': 'Armani',
+        'emporio': 'Armani',
+        'tissot': 'Tissot',
+        'tisso_t': 'Tissot',
+        'hublot': 'Hublot',
+        'hublo_t': 'Hublot',
+        'seiko': 'Seiko',
+        'seik_o': 'Seiko',
+        'audemars': 'Audemars Piguet',
+        'audemar_s': 'Audemars Piguet',
+        'tommy': 'Tommy Hilfiger',
+        'tomm_y': 'Tommy Hilfiger',
+        'patek': 'Patek Philippe',
+        'pate_k': 'Patek Philippe',
+        'diesel': 'Diesel',
+        'diese_l': 'Diesel',
+        'guess': 'Guess',
+        'gues_s': 'Guess',
+        'cartier': 'Cartier',
+        'cartie_r': 'Cartier',
+        'richard': 'Richard Mille',
+        'tag': 'Tag Heuer',
+        'nike': 'Nike',
+        'nik_e': 'Nike',
+        'maserati': 'Maserati',
+        'maserat_i': 'Maserati',
+        'gucci': 'Gucci',
+        'gucc_i': 'Gucci',
+        'chanel': 'Chanel',
+        'chane_l': 'Chanel',
+        'versace': 'Versace',
+        'jacob': 'Jacob & Co',
+        'iwc': 'IWC',
+        'bvlgari': 'Bvlgari',
+        'bulgari': 'Bvlgari',
+        'michael': 'Michael Kors',
+        'michae_l': 'Michael Kors',
+        'corum': 'Corum',
+        'oakley': 'Oakley',
+        'oakle_y': 'Oakley',
+        'boss': 'Hugo Boss',
+        'hugobos': 'Hugo Boss',
+        'hugo': 'Hugo Boss',
+        'louis vuitton': 'Louis Vuitton',
+        'loui_s': 'Louis Vuitton',
+        'citizen': 'Citizen',
+        'citize_n': 'Citizen',
+        'maxima': 'Maxima',
+        'calvin': 'Calvin Klein',
+        'calvi_n': 'Calvin Klein',
+        'tudor': 'Tudor',
+        'tudo_r': 'Tudor',
+        'vacheron': 'Vacheron Constantin',
+        'vachero_n': 'Vacheron Constantin',
+        'roger': 'Roger Dubuis',
+        'roge_r': 'Roger Dubuis',
+        'swatch': 'Swatch',
+        'swatc_h': 'Swatch',
+        'burberry': 'Burberry',
+        'burberr_y': 'Burberry',
+        'longines': 'Longines',
+        'longine_s': 'Longines',
+        'movado': 'Movado',
+        'movad_o': 'Movado',
+        'ferrari': 'Ferrari',
+        'lamborghini': 'Lamborghini',
+        'ulysse': 'Ulysse Nardin',
+        'ulysee': 'Ulysse Nardin',
+        'mont': 'Montblanc',
+        'franck': 'Franck Muller',
+        'aura': 'Aura',
+        'sabr': 'Sabr',
+    }
+    
+    for key, val in brand_mappings.items():
+        if key in name_lower:
+            return val
+            
+    first_word = words[0]
+    if len(first_word) > 2 and first_word not in ['mens', 'ladies', 'boys', 'girls', 'watch', 'watches', 'classic', 'new', 'luxury', 'analog', 'digital']:
+        return first_word.title()
+        
+    return 'Unknown'
 
 # Extract and fill brand
 df['extracted_brand'] = df['name'].apply(extract_brand)

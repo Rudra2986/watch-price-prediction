@@ -211,9 +211,9 @@ v3.0  [2026-05-31]  Step 7 transformed into "Chronos AI" — futuristic AI
                     cyberpunk dark theme, premium animations
 v4.0  [2026-05-31]  ML Pipeline Upgrade: implemented custom brand and movement
                     status extraction from watch titles. Reduced brand sparsity
-                    from 87.5% to 0.07% (62 unique brands extracted). Upgraded
+                    from 87.5% to 0.07% (49 unique brands consolidated). Upgraded
                     Streamlit dropdowns to load dynamically. Model test R2
-                    boosted from 45.0% to 71.5% and RMSE reduced by 30%.
+                    boosted from 45.0% to 71.2% and RMSE reduced by 30%.
 
 
 11. IMPORTANT DECISIONS MADE
@@ -283,21 +283,21 @@ predicting watch prices from the WatchVine e-commerce dataset.
 Starting from raw scraped data with 3,000+ columns, the pipeline:
 1. Cleans data down to 1,488 rows x 18 meaningful columns
 2. Performs comprehensive EDA with 25 visualizations
-3. Engineers 96 features using one-hot and target encoding
+3. Engineers 129 features using one-hot and target encoding
 4. Trains 6 regression models (Linear, Ridge, RF, XGBoost, LightGBM, CatBoost)
 5. Evaluates all models on a held-out test set
-6. Tunes the best model (CatBoost) with Optuna (100 trials)
+6. Tunes the best model (XGBoost) with Optuna (100 trials)
 7. Deploys as a Streamlit web app with real-time prediction
 
 Final Model Performance:
-  • Model: CatBoost (tuned)
-  • R2 Score: 0.7148
-  • RMSE: INR 460
-  • MAE: INR 285
+  • Model: XGBoost (tuned)
+  • R2 Score: 0.7117
+  • RMSE: INR 466
+  • MAE: INR 294
 
 Key Challenge Solved: Resolved the 87.5% unknown brand and 89.1% unknown movement status
 sparsity issues by implementing a text parser that extracts these attributes from the product titles,
-improving R2 from 45% to 71.5%.
+improving R2 from 45% to 71.2%.
 
 The Streamlit app allows users to input any watch attributes and
 receive an instant price prediction with confidence range and
