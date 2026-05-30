@@ -8,6 +8,7 @@
 
 import pandas as pd
 import numpy as np
+import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 
@@ -284,11 +285,17 @@ df_full["log_price"] = y_train_log.values
 df_full["price"]     = y_train_orig.values
 df_full.to_csv("watchvine_features.csv", index=False)
 
+# Save target encoder mappings + column order for Step 7 (Streamlit app)
+joblib.dump({"encoders": target_encoders, "global_mean": global_mean}, "target_encoders.pkl")
+joblib.dump(list(X_train.columns), "train_columns.pkl")
+
 print("✅ Saved: watchvine_train_X.csv")
 print("✅ Saved: watchvine_test_X.csv")
 print("✅ Saved: watchvine_train_y.csv")
 print("✅ Saved: watchvine_test_y.csv")
 print("✅ Saved: watchvine_features.csv  (train set combined — reference file)")
+print("✅ Saved: target_encoders.pkl     (for Step 7 deployment)")
+print("✅ Saved: train_columns.pkl       (for Step 7 column alignment)")
 
 
 # ============================================================
