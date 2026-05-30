@@ -417,7 +417,7 @@ def get_options(prefix, formatter=None):
         clean = ["Unknown"] + clean
     return clean
 
-category_options = get_options("category", lambda x: "Men's Watch" if "men" in x else "Women's Watch")
+category_options = get_options("category", lambda x: "Women's Watch" if "women" in x else "Men's Watch")
 brand_options = get_options("brand")
 watch_type_options = get_options("watch_type")
 style_options = get_options("style")
