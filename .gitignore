@@ -5,17 +5,28 @@
 # ── Private / Reference Files ────────────────────────────────
 summary.pdf
 
-# ── Python ───────────────────────────────────────────────────
+# ── Python & Environments ────────────────────────────────────
 __pycache__/
 *.pyc
 *.pyo
+*.pyd
 *.egg-info/
 dist/
 build/
 .eggs/
+venv/
+.venv/
+env/
+.env
+.pytest_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
 
-# ── CatBoost Training Logs ──────────────────────────────────
+# ── CatBoost & Optuna Logs ──────────────────────────────────
 catboost_info/
+*.db
+optuna.db
 
 # ── IDE / Editor ─────────────────────────────────────────────
 .vscode/
@@ -28,3 +39,4 @@ catboost_info/
 .DS_Store
 Thumbs.db
 desktop.ini
+
