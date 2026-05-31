@@ -167,6 +167,9 @@ watch-price-prediction/
 [x] Mobile responsive UI layout and styling
 [x] Interactive time-synchronized 3D watch face using Three.js
 [x] WeBuild-AI high-end corporate UI/UX overhaul (cyber grid, floating glass navbar, bento grid widgets)
+[x] Rolex-inspired luxury Emerald, Mint & Champagne Gold theme overhaul
+[x] Floating native navigation tabs integration for seamless and robust tab switching
+
 
 
 7. CURRENT PROGRESS STATUS
@@ -230,6 +233,12 @@ v4.3  [2026-05-31]  UI/UX overhaul inspired by WeBuild-AI corporate website. Add
                     background cybernetic grid overlay, glassmorphic floating navigation
                     header, Bento Grid layouts for cards/widgets in Predict & Analytics tabs,
                     glowing top borders, and responsive micro-animations.
+v4.4  [2026-05-31]  Fixed prediction crash (resolved TypeError: unsafe_html -> unsafe_allow_html).
+                    Overhauled color theme to a luxury Rolex-inspired Emerald Green, Seafoam
+                    Mint, and Champagne Gold palette. Redesigned floating header using native
+                    tabs fixed positioning for seamless and robust section switching. Synchronized
+                    Three.js watch wireframe materials to the new color palette.
+
 
 
 11. IMPORTANT DECISIONS MADE
@@ -290,8 +299,14 @@ v4.3  [2026-05-31]  UI/UX overhaul inspired by WeBuild-AI corporate website. Add
     within structural column elements (`st.columns`), styling card components with dynamic flex,
     glowing border overlays, and relative positions to create a high-end corporate aesthetic.
 
+13. Native tabs fixed positioning for floating navigation
+    Reason: Custom HTML navbar links using JavaScript click handlers are stripped by Streamlit's
+    sanitization engine. By using CSS fixed positioning, we moved the native Streamlit tabs container
+    directly into the center of the floating glassmorphic header, guaranteeing robust and seamless
+    navigation.
 
-12. FUTURE IMPROVEMENTS
+
+13. FUTURE IMPROVEMENTS
 ------------------------------------------------------------
   • Collect more data — 1,488 rows with 87.5% unknown brands is limiting
   • Try deep learning approaches if dataset grows significantly

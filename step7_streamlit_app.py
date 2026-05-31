@@ -28,21 +28,21 @@ st.markdown("""
     @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
 
     :root {
-        --bg-primary: #06060f;
-        --bg-card: rgba(255,255,255,0.025);
-        --bg-card-hover: rgba(255,255,255,0.05);
-        --border: rgba(255,255,255,0.06);
-        --border-glow: rgba(139,92,246,0.3);
-        --accent: #8b5cf6;
-        --accent-2: #06b6d4;
-        --accent-3: #f59e0b;
-        --text-primary: rgba(255,255,255,0.92);
-        --text-secondary: rgba(255,255,255,0.55);
-        --text-muted: rgba(255,255,255,0.3);
-        --gradient-1: linear-gradient(135deg, #8b5cf6, #06b6d4);
-        --gradient-2: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
-        --glow-purple: 0 0 30px rgba(139,92,246,0.15);
-        --glow-cyan: 0 0 30px rgba(6,182,212,0.15);
+        --bg-primary: #040906;
+        --bg-card: rgba(16, 36, 25, 0.45);
+        --bg-card-hover: rgba(24, 54, 38, 0.6);
+        --border: rgba(255, 255, 255, 0.05);
+        --border-glow: rgba(223, 177, 91, 0.25);
+        --accent: #dfb15b; /* Champagne Gold */
+        --accent-2: #34d399; /* Seafoam Mint */
+        --accent-3: #10b981; /* Emerald Green */
+        --text-primary: rgba(255, 255, 255, 0.95);
+        --text-secondary: rgba(210, 230, 220, 0.65);
+        --text-muted: rgba(160, 190, 175, 0.35);
+        --gradient-1: linear-gradient(135deg, #dfb15b, #34d399);
+        --gradient-2: linear-gradient(135deg, #10b981, #dfb15b, #34d399);
+        --glow-gold: 0 0 30px rgba(223, 177, 91, 0.18);
+        --glow-emerald: 0 0 30px rgba(16, 185, 129, 0.18);
     }
 
     /* ── Global ──────────────────────────────── */
@@ -55,25 +55,25 @@ st.markdown("""
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
         background-image: 
-            linear-gradient(rgba(255, 255, 255, 0.007) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.007) 1px, transparent 1px);
+            linear-gradient(rgba(52, 211, 153, 0.008) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(52, 211, 153, 0.008) 1px, transparent 1px);
         background-size: 50px 50px;
         pointer-events: none;
         z-index: 1;
     }
     [data-testid="stSidebar"] { display: none; }
     .block-container { max-width: 1200px; padding-top: 90px !important; }
-    #MainMenu, footer, header { visibility: hidden; }
+    #MainMenu, footer, header { display: none !important; }
 
     /* ── Navigation Bar ──────────────────────── */
     .nav-bar {
         position: fixed;
         top: 0; left: 0; width: 100%;
         height: 70px;
-        background: rgba(6, 6, 15, 0.65);
+        background: rgba(4, 9, 6, 0.75);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         z-index: 999999;
         display: flex;
         align-items: center;
@@ -122,27 +122,27 @@ st.markdown("""
     }
     .nav-link:hover {
         color: #ffffff;
-        text-shadow: 0 0 10px rgba(139,92,246,0.3);
+        text-shadow: 0 0 10px rgba(52,211,153,0.3);
     }
     .nav-cta {
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        background: rgba(139, 92, 246, 0.1);
-        border: 1px solid rgba(139, 92, 246, 0.25);
+        background: rgba(223, 177, 91, 0.12);
+        border: 1px solid rgba(223, 177, 91, 0.3);
         border-radius: 10px;
         padding: 8px 16px;
         font-size: 0.8rem;
         font-weight: 600;
-        color: #c4b5fd;
+        color: #dfb15b;
         text-decoration: none;
         letter-spacing: 0.5px;
         transition: all 0.3s ease;
     }
     .nav-cta:hover {
-        background: rgba(139, 92, 246, 0.2);
-        border-color: rgba(139, 92, 246, 0.4);
-        box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+        background: rgba(223, 177, 91, 0.2);
+        border-color: rgba(223, 177, 91, 0.5);
+        box-shadow: 0 0 15px rgba(223, 177, 91, 0.25);
         transform: translateY(-1px);
     }
     @media (max-width: 768px) {
@@ -162,17 +162,17 @@ st.markdown("""
     }
     .orb-1 {
         width: 500px; height: 500px; top: -10%; left: -5%;
-        background: rgba(139,92,246,0.08);
+        background: rgba(223, 177, 91, 0.06);
         animation-delay: 0s;
     }
     .orb-2 {
         width: 400px; height: 400px; bottom: -10%; right: -5%;
-        background: rgba(6,182,212,0.06);
+        background: rgba(16, 185, 129, 0.05);
         animation-delay: -7s;
     }
     .orb-3 {
         width: 300px; height: 300px; top: 40%; left: 50%;
-        background: rgba(236,72,153,0.04);
+        background: rgba(52, 211, 153, 0.04);
         animation-delay: -14s;
     }
     @keyframes float {
@@ -189,10 +189,10 @@ st.markdown("""
     }
     .brand-badge {
         display: inline-flex; align-items: center; gap: 8px;
-        background: rgba(139,92,246,0.1);
-        border: 1px solid rgba(139,92,246,0.2);
+        background: rgba(223, 177, 91, 0.1);
+        border: 1px solid rgba(223, 177, 91, 0.2);
         border-radius: 100px; padding: 6px 18px;
-        font-size: 0.78rem; color: #a78bfa;
+        font-size: 0.78rem; color: #dfb15b;
         font-weight: 500; letter-spacing: 1.5px;
         text-transform: uppercase; margin-bottom: 20px;
         animation: fadeDown 0.8s ease-out;
@@ -201,7 +201,7 @@ st.markdown("""
         font-family: 'Space Grotesk', sans-serif;
         font-size: 3.5rem; font-weight: 700;
         line-height: 1.1; margin: 0;
-        background: linear-gradient(135deg, #e0e7ff 0%, #a78bfa 40%, #06b6d4 70%, #e0e7ff 100%);
+        background: linear-gradient(135deg, #ffffff 0%, #dfb15b 40%, #34d399 70%, #ffffff 100%);
         background-size: 200% 200%;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -227,21 +227,36 @@ st.markdown("""
 
     /* ── Navigation Tabs ─────────────────────── */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 0; background: rgba(255,255,255,0.03);
-        border-radius: 14px; padding: 4px;
-        border: 1px solid var(--border);
-        justify-content: center;
+        position: fixed;
+        top: 13px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000000;
+        gap: 8px;
+        background: rgba(16, 36, 25, 0.5) !important;
+        border: 1px solid rgba(223, 177, 91, 0.2) !important;
+        border-radius: 100px;
+        padding: 4px 6px;
+        backdrop-filter: blur(10px);
     }
     .stTabs [data-baseweb="tab"] {
-        border-radius: 10px; padding: 10px 28px;
-        color: var(--text-secondary); font-weight: 500;
-        font-size: 0.88rem; border: none;
-        transition: all 0.3s ease;
+        border-radius: 100px !important;
+        padding: 8px 24px !important;
+        color: var(--text-secondary) !important;
+        font-weight: 600 !important;
+        font-size: 0.82rem !important;
+        border: none !important;
+        background: transparent !important;
+        transition: all 0.3s ease !important;
+    }
+    .stTabs [data-baseweb="tab"]:hover {
+        color: #ffffff !important;
+        text-shadow: 0 0 10px rgba(52, 211, 153, 0.4);
     }
     .stTabs [aria-selected="true"] {
-        background: rgba(139,92,246,0.15) !important;
-        color: #c4b5fd !important;
-        border: 1px solid rgba(139,92,246,0.25) !important;
+        background: rgba(52, 211, 153, 0.15) !important;
+        color: #34d399 !important;
+        border: 1px solid rgba(52, 211, 153, 0.3) !important;
     }
     .stTabs [data-baseweb="tab-panel"] { padding-top: 25px; }
     .stTabs [data-baseweb="tab-border"] { display: none; }
@@ -249,7 +264,7 @@ st.markdown("""
 
     /* ── Glass Card ───────────────────────────── */
     .g-card {
-        background: rgba(10, 10, 26, 0.4);
+        background: var(--bg-card);
         backdrop-filter: blur(24px);
         -webkit-backdrop-filter: blur(24px);
         border: 1px solid var(--border);
@@ -268,9 +283,9 @@ st.markdown("""
         transition: opacity 0.4s ease;
     }
     .g-card:hover {
-        background: rgba(15, 15, 36, 0.5);
-        border-color: rgba(139,92,246,0.25);
-        box-shadow: var(--glow-purple);
+        background: var(--bg-card-hover);
+        border-color: rgba(223, 177, 91, 0.25);
+        box-shadow: var(--glow-gold);
         transform: translateY(-3px);
     }
     .g-card:hover::before {
@@ -285,7 +300,7 @@ st.markdown("""
     /* ── KPI Cards ────────────────────────────── */
     .kpi-row { display: flex; gap: 16px; margin: 20px 0; }
     .kpi-card {
-        flex: 1; background: rgba(10, 10, 26, 0.4);
+        flex: 1; background: var(--bg-card);
         border: 1px solid var(--border);
         border-radius: 16px; padding: 22px;
         text-align: center;
@@ -303,9 +318,9 @@ st.markdown("""
         transition: opacity 0.4s ease;
     }
     .kpi-card:hover {
-        background: rgba(15, 15, 36, 0.55);
-        border-color: rgba(6,182,212,0.25);
-        box-shadow: var(--glow-cyan);
+        background: var(--bg-card-hover);
+        border-color: rgba(52, 211, 153, 0.25);
+        box-shadow: var(--glow-emerald);
         transform: translateY(-4px);
     }
     .kpi-card:hover::before {
@@ -327,9 +342,9 @@ st.markdown("""
 
     /* ── Result Card ──────────────────────────── */
     .result-container {
-        background: linear-gradient(135deg, rgba(139,92,246,0.12), rgba(6,182,212,0.08));
-        border: 1px solid rgba(139,92,246,0.25);
-        box-shadow: 0 8px 32px rgba(139,92,246,0.1);
+        background: linear-gradient(135deg, rgba(223, 177, 91, 0.12), rgba(52, 211, 153, 0.08));
+        border: 1px solid rgba(223, 177, 91, 0.25);
+        box-shadow: 0 8px 32px rgba(223, 177, 91, 0.1);
         border-radius: 24px; padding: 45px 30px;
         text-align: center; margin: 25px 0;
         position: relative; overflow: hidden;
@@ -349,7 +364,7 @@ st.markdown("""
     .result-price {
         font-family: 'Space Grotesk', sans-serif;
         font-size: 4rem; font-weight: 700;
-        background: linear-gradient(135deg, #e0e7ff, #a78bfa, #06b6d4);
+        background: linear-gradient(135deg, #ffffff, #dfb15b, #34d399);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         line-height: 1.1; margin: 5px 0;
@@ -361,7 +376,7 @@ st.markdown("""
         margin-top: 8px;
     }
     .result-range span {
-        color: #a78bfa; font-weight: 600;
+        color: #dfb15b; font-weight: 600;
     }
     @keyframes priceReveal {
         from { opacity: 0; transform: scale(0.8); filter: blur(10px); }
@@ -371,16 +386,16 @@ st.markdown("""
     /* ── Metrics Row ──────────────────────────── */
     .metrics-row { display: flex; gap: 14px; margin: 20px 0; }
     .metric-pill {
-        flex: 1; background: rgba(10, 10, 26, 0.4);
+        flex: 1; background: rgba(16, 36, 25, 0.3);
         border: 1px solid var(--border);
         border-radius: 14px; padding: 18px;
         text-align: center;
         transition: all 0.4s ease;
     }
     .metric-pill:hover {
-        background: rgba(15, 15, 36, 0.5);
-        border-color: rgba(139,92,246,0.25);
-        box-shadow: var(--glow-purple);
+        background: rgba(24, 54, 38, 0.45);
+        border-color: rgba(223, 177, 91, 0.25);
+        box-shadow: var(--glow-gold);
     }
     .metric-pill .val {
         font-family: 'JetBrains Mono', monospace;
@@ -395,8 +410,8 @@ st.markdown("""
 
     /* ── Insight Card ─────────────────────────── */
     .insight-card {
-        background: rgba(139,92,246,0.06);
-        border: 1px solid rgba(139,92,246,0.12);
+        background: rgba(16, 185, 129, 0.06);
+        border: 1px solid rgba(16, 185, 129, 0.12);
         border-radius: 14px; padding: 18px 22px;
         margin: 10px 0; display: flex;
         align-items: flex-start; gap: 14px;
@@ -410,25 +425,25 @@ st.markdown("""
         font-size: 0.88rem; line-height: 1.6;
     }
     .insight-card .text strong {
-        color: #c4b5fd;
+        color: #dfb15b;
     }
 
     /* ── Buttons ──────────────────────────────── */
     .stButton > button {
-        background: linear-gradient(135deg, #7c3aed, #6366f1, #0ea5e9) !important;
+        background: linear-gradient(135deg, #dfb15b, #10b981, #34d399) !important;
         background-size: 200% 200% !important;
-        color: white !important; border: none !important;
+        color: #040906 !important; border: none !important;
         border-radius: 14px !important;
         padding: 16px 32px !important;
-        font-weight: 600 !important; font-size: 1rem !important;
+        font-weight: 700 !important; font-size: 1rem !important;
         letter-spacing: 0.5px !important;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        box-shadow: 0 4px 20px rgba(99,102,241,0.25) !important;
+        box-shadow: 0 4px 20px rgba(52,211,153,0.2) !important;
     }
     .stButton > button:hover {
         background-position: 100% 50% !important;
         transform: translateY(-3px) !important;
-        box-shadow: 0 8px 35px rgba(99,102,241,0.4) !important;
+        box-shadow: 0 8px 35px rgba(52,211,153,0.3) !important;
     }
     .stButton > button:active {
         transform: translateY(-1px) !important;
@@ -449,7 +464,7 @@ st.markdown("""
         border-radius: 14px;
     }
     div[data-testid="stExpander"]:hover {
-        border-color: rgba(139,92,246,0.15);
+        border-color: rgba(223, 177, 91, 0.15);
     }
 
     /* ── Section Headers ─────────────────────── */
@@ -460,7 +475,7 @@ st.markdown("""
     .section-hdr .dot {
         width: 8px; height: 8px; border-radius: 50%;
         background: var(--accent);
-        box-shadow: 0 0 10px rgba(139,92,246,0.5);
+        box-shadow: 0 0 10px rgba(223, 177, 91, 0.5);
     }
     .section-hdr h3 {
         font-family: 'Space Grotesk', sans-serif;
@@ -471,7 +486,7 @@ st.markdown("""
     /* ── Separator ────────────────────────────── */
     .glow-sep {
         height: 1px; margin: 30px 0;
-        background: linear-gradient(90deg, transparent, rgba(139,92,246,0.3), rgba(6,182,212,0.2), transparent);
+        background: linear-gradient(90deg, transparent, rgba(223,177,91,0.25), rgba(52,211,153,0.18), transparent);
     }
 
     /* ── Footer ───────────────────────────────── */
@@ -515,11 +530,6 @@ st.markdown("""
             flex-direction: column !important;
             gap: 10px !important;
         }
-        .stTabs [data-baseweb="tab"] {
-            padding: 8px 16px !important;
-            font-size: 0.8rem !important;
-        }
-        .result-price {
             font-size: 2.5rem !important;
         }
         .g-card {
@@ -538,11 +548,7 @@ st.markdown("""
             <span class="nav-logo-icon">⌚</span>
             <span class="nav-logo-text">Chronos <span>AI</span></span>
         </a>
-        <div class="nav-links">
-            <span class="nav-link" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Predictor</span>
-            <span class="nav-link" onclick="document.querySelector('.stTabs').scrollIntoView({behavior: 'smooth'})">Analytics</span>
-            <a href="https://github.com/Rudra2986/watch-price-prediction" target="_blank" class="nav-link">Repository</a>
-        </div>
+        <!-- Native tabs will float here automatically via CSS fixed positioning -->
         <a href="https://github.com/Rudra2986/watch-price-prediction" target="_blank" class="nav-cta">
             <span>View GitHub</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
@@ -673,19 +679,19 @@ with col_hero_right:
         scene.add(watchGroup);
 
         // Materials
-        const purpleMaterial = new THREE.MeshBasicMaterial({ color: 0x8b5cf6, wireframe: true, transparent: true, opacity: 0.85 });
-        const cyanMaterial = new THREE.MeshBasicMaterial({ color: 0x06b6d4, wireframe: true, transparent: true, opacity: 0.85 });
-        const pinkMaterial = new THREE.MeshBasicMaterial({ color: 0xec4899, transparent: true, opacity: 0.9 });
-        const dialMaterial = new THREE.MeshBasicMaterial({ color: 0x1e1b4b, transparent: true, opacity: 0.3 });
+        const goldMaterial = new THREE.MeshBasicMaterial({ color: 0xdfb15b, wireframe: true, transparent: true, opacity: 0.85 });
+        const mintMaterial = new THREE.MeshBasicMaterial({ color: 0x34d399, wireframe: true, transparent: true, opacity: 0.85 });
+        const emeraldMaterial = new THREE.MeshBasicMaterial({ color: 0x10b981, transparent: true, opacity: 0.9 });
+        const dialMaterial = new THREE.MeshBasicMaterial({ color: 0x0a140f, transparent: true, opacity: 0.45 });
         const ticksMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.7 });
 
         // Bezel / Case
         const bezelGeom = new THREE.TorusGeometry(1.6, 0.15, 8, 48);
-        const bezel = new THREE.Mesh(bezelGeom, purpleMaterial);
+        const bezel = new THREE.Mesh(bezelGeom, goldMaterial);
         watchGroup.add(bezel);
         
         const bezelInnerGeom = new THREE.TorusGeometry(1.4, 0.05, 8, 48);
-        const bezelInner = new THREE.Mesh(bezelInnerGeom, cyanMaterial);
+        const bezelInner = new THREE.Mesh(bezelInnerGeom, mintMaterial);
         watchGroup.add(bezelInner);
 
         // Dial Face
@@ -710,14 +716,14 @@ with col_hero_right:
 
         // Strap Lugs and Bands
         const strapTopGeom = new THREE.BoxGeometry(0.8, 1.2, 0.1);
-        const strapTop = new THREE.Mesh(strapTopGeom, purpleMaterial);
+        const strapTop = new THREE.Mesh(strapTopGeom, goldMaterial);
         strapTop.position.y = 2.1;
         strapTop.position.z = -0.15;
         strapTop.rotation.x = -0.15;
         watchGroup.add(strapTop);
 
         const strapBottomGeom = new THREE.BoxGeometry(0.8, 1.2, 0.1);
-        const strapBottom = new THREE.Mesh(strapBottomGeom, purpleMaterial);
+        const strapBottom = new THREE.Mesh(strapBottomGeom, goldMaterial);
         strapBottom.position.y = -2.1;
         strapBottom.position.z = -0.15;
         strapBottom.rotation.x = 0.15;
@@ -725,7 +731,7 @@ with col_hero_right:
 
         // Crown
         const crownGeom = new THREE.CylinderGeometry(0.15, 0.15, 0.25, 12);
-        const crown = new THREE.Mesh(crownGeom, cyanMaterial);
+        const crown = new THREE.Mesh(crownGeom, mintMaterial);
         crown.position.x = 1.75;
         crown.rotation.z = -Math.PI / 2;
         watchGroup.add(crown);
@@ -733,17 +739,17 @@ with col_hero_right:
         // Hands Group (offset pivots for proper rotation)
         const hourHandGeom = new THREE.BoxGeometry(0.08, 0.75, 0.02);
         hourHandGeom.translate(0, 0.375, 0.02);
-        const hourHand = new THREE.Mesh(hourHandGeom, purpleMaterial);
+        const hourHand = new THREE.Mesh(hourHandGeom, goldMaterial);
         watchGroup.add(hourHand);
 
         const minHandGeom = new THREE.BoxGeometry(0.06, 1.1, 0.02);
         minHandGeom.translate(0, 0.55, 0.04);
-        const minHand = new THREE.Mesh(minHandGeom, cyanMaterial);
+        const minHand = new THREE.Mesh(minHandGeom, mintMaterial);
         watchGroup.add(minHand);
 
         const secHandGeom = new THREE.BoxGeometry(0.02, 1.25, 0.01);
         secHandGeom.translate(0, 0.625, 0.06);
-        const secHand = new THREE.Mesh(secHandGeom, pinkMaterial);
+        const secHand = new THREE.Mesh(secHandGeom, emeraldMaterial);
         watchGroup.add(secHand);
 
         // Background Particles
@@ -765,7 +771,7 @@ with col_hero_right:
 
         particlesGeom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
         const pMaterial = new THREE.PointsMaterial({
-            color: 0x06b6d4,
+            color: 0x34d399,
             size: 0.05,
             transparent: true,
             opacity: 0.5
@@ -1011,9 +1017,9 @@ with tab_predict:
         with col_res_l:
             st.markdown(f"""
             <div class="metrics-row">
-                <div class="metric-pill">
-                    <div class="val">₹{price:,.0f}</div>
-                    <div class="lbl">Point Estimate</div>
+                <div class="metric-pill" style="border-color: rgba(223, 177, 91, 0.35); background: rgba(223, 177, 91, 0.04);">
+                    <div class="val" style="background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">₹{price:,.0f}</div>
+                    <div class="lbl" style="color: var(--accent);">Point Estimate</div>
                 </div>
                 <div class="metric-pill">
                     <div class="val">₹{p_low:,.0f} — ₹{p_high:,.0f}</div>
@@ -1028,7 +1034,7 @@ with tab_predict:
                     <div class="lbl">Model R²</div>
                 </div>
             </div>
-            """, unsafe_html=True)
+            """, unsafe_allow_html=True)
 
             # AI Insights
             insights = []
@@ -1048,7 +1054,7 @@ with tab_predict:
                 <div class="dot"></div>
                 <h3>AI Insights</h3>
             </div>
-            """, unsafe_html=True)
+            """, unsafe_allow_html=True)
 
             for icon, text in insights:
                 st.markdown(f"""
@@ -1056,35 +1062,35 @@ with tab_predict:
                     <div class="icon">{icon}</div>
                     <div class="text">{text}</div>
                 </div>
-                """, unsafe_html=True)
+                """, unsafe_allow_html=True)
 
         with col_res_r:
             # Confidence Gauge
-            st.markdown('<div class="g-card" style="margin-bottom: 20px;">', unsafe_html=True)
+            st.markdown('<div class="g-card" style="margin-bottom: 20px;">', unsafe_allow_html=True)
             st.markdown("""
             <div class="section-hdr" style="margin-top: 0;">
                 <div class="dot"></div>
                 <h3>Prediction Confidence</h3>
             </div>
-            """, unsafe_html=True)
+            """, unsafe_allow_html=True)
 
             gauge = go.Figure(go.Indicator(
                 mode="gauge+number",
                 value=r2_val * 100,
-                number={"suffix": "%", "font": {"size": 36, "color": "#c4b5fd", "family": "Space Grotesk"}},
+                number={"suffix": "%", "font": {"size": 36, "color": "#dfb15b", "family": "Space Grotesk"}},
                 gauge={
                     "axis": {"range": [0, 100], "tickcolor": "rgba(255,255,255,0.15)",
                              "tickfont": {"color": "rgba(255,255,255,0.3)", "size": 10}},
-                    "bar": {"color": "#8b5cf6", "thickness": 0.3},
+                    "bar": {"color": "#34d399", "thickness": 0.3},
                     "bgcolor": "rgba(255,255,255,0.03)",
                     "borderwidth": 0,
                     "steps": [
                         {"range": [0, 30], "color": "rgba(239,68,68,0.1)"},
                         {"range": [30, 60], "color": "rgba(245,158,11,0.1)"},
-                        {"range": [60, 100], "color": "rgba(34,197,94,0.1)"},
+                        {"range": [60, 100], "color": "rgba(52,211,153,0.15)"},
                     ],
                     "threshold": {
-                        "line": {"color": "#06b6d4", "width": 3},
+                        "line": {"color": "#dfb15b", "width": 3},
                         "thickness": 0.8, "value": r2_val * 100,
                     },
                 },
@@ -1096,16 +1102,16 @@ with tab_predict:
                 font={"color": "rgba(255,255,255,0.5)"},
             )
             st.plotly_chart(gauge, use_container_width=True)
-            st.markdown('</div>', unsafe_html=True)
+            st.markdown('</div>', unsafe_allow_html=True)
 
             # SHAP Explanation
-            st.markdown('<div class="g-card">', unsafe_html=True)
+            st.markdown('<div class="g-card">', unsafe_allow_html=True)
             st.markdown("""
             <div class="section-hdr" style="margin-top: 0;">
                 <div class="dot"></div>
                 <h3>Feature Impact Analysis (SHAP)</h3>
             </div>
-            """, unsafe_html=True)
+            """, unsafe_allow_html=True)
 
             try:
                 import shap
@@ -1119,7 +1125,7 @@ with tab_predict:
                 shap_df["Abs"] = shap_df["SHAP"].abs()
                 top = shap_df.nlargest(10, "Abs").sort_values("SHAP")
 
-                colors = ["#ef4444" if v < 0 else "#8b5cf6" for v in top["SHAP"]]
+                colors = ["#ef4444" if v < 0 else "#34d399" for v in top["SHAP"]]
 
                 fig = go.Figure(go.Bar(
                     x=top["SHAP"].values,
@@ -1145,7 +1151,7 @@ with tab_predict:
                     hoverlabel=dict(
                         bgcolor="#1a1a3e",
                         font_size=12,
-                        bordercolor="rgba(139,92,246,0.3)",
+                        bordercolor="rgba(52,211,153,0.3)",
                     ),
                 )
                 st.plotly_chart(fig, use_container_width=True)
@@ -1154,16 +1160,16 @@ with tab_predict:
                 <div class="insight-card">
                     <div class="icon">💡</div>
                     <div class="text">
-                        <strong>Purple bars</strong> push the price UP.
+                        <strong style="color:#34d399;">Mint Green bars</strong> push the price UP.
                         <strong style="color:#ef4444;">Red bars</strong> push the price DOWN.
                         The longer the bar, the stronger the impact on the prediction.
                     </div>
                 </div>
-                """, unsafe_html=True)
+                """, unsafe_allow_html=True)
 
             except Exception:
                 st.info("SHAP analysis requires the model to support TreeExplainer.")
-            st.markdown('</div>', unsafe_html=True)
+            st.markdown('</div>', unsafe_allow_html=True)
 
         # ── Input Summary ────────────────────────────────────
         with st.expander("📋 View Full Input Configuration"):
@@ -1189,7 +1195,7 @@ with tab_predict:
                 Configure watch attributes above
             </p>
             <p style="color:var(--text-muted); font-size:0.88rem; margin-top:5px;">
-                Click <strong style="color:#a78bfa;">Generate Price Prediction</strong> to get an AI-powered estimate
+                Click <strong style="color:#dfb15b;">Generate Price Prediction</strong> to get an AI-powered estimate
             </p>
         </div>
         """, unsafe_allow_html=True)
@@ -1275,7 +1281,7 @@ with tab_analytics:
 
         m_names = list(models_data.keys())[::-1]
         m_scores = list(models_data.values())[::-1]
-        m_colors = ["#8b5cf6" if n == model_name else "rgba(139,92,246,0.25)" for n in m_names]
+        m_colors = ["#34d399" if n == model_name else "rgba(52,211,153,0.2)" for n in m_names]
 
         fig_comp = go.Figure(go.Bar(
             x=m_scores, y=m_names, orientation="h",
@@ -1299,7 +1305,7 @@ with tab_analytics:
                 title="R² Score (higher is better)",
             ),
             yaxis=dict(gridcolor="rgba(255,255,255,0.02)"),
-            hoverlabel=dict(bgcolor="#1a1a3e", bordercolor="rgba(139,92,246,0.3)"),
+            hoverlabel=dict(bgcolor="#0a140f", bordercolor="rgba(52,211,153,0.3)"),
         )
         st.plotly_chart(fig_comp, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
@@ -1399,7 +1405,7 @@ with tab_about:
             </p>
             <p style="color:var(--text-secondary); font-size:0.88rem;">
                 GitHub: <a href="https://github.com/Rudra2986" target="_blank"
-                style="color:#a78bfa;">@Rudra2986</a>
+                style="color:#dfb15b;">@Rudra2986</a>
             </p>
         </div>
         """, unsafe_allow_html=True)
@@ -1410,7 +1416,7 @@ with tab_about:
             <div class="card-label">Tech Stack</div>
             <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">
         """ + "".join([
-            f'<span style="background:rgba(139,92,246,0.1); border:1px solid rgba(139,92,246,0.2); border-radius:8px; padding:5px 12px; font-size:0.78rem; color:#c4b5fd; font-weight:500;">{t}</span>'
+            f'<span style="background:rgba(223,177,91,0.1); border:1px solid rgba(223,177,91,0.25); border-radius:8px; padding:5px 12px; font-size:0.78rem; color:#dfb15b; font-weight:600;">{t}</span>'
             for t in ["Python 3.11", "CatBoost", "Scikit-Learn", "XGBoost",
                        "LightGBM", "Optuna", "SHAP", "Streamlit", "Plotly",
                        "Pandas", "NumPy", "Matplotlib"]
