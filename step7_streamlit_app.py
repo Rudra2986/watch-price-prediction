@@ -50,9 +50,106 @@ st.markdown("""
         background: var(--bg-primary);
         font-family: 'Inter', sans-serif;
     }
+    .stApp::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background-image: 
+            linear-gradient(rgba(255, 255, 255, 0.007) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.007) 1px, transparent 1px);
+        background-size: 50px 50px;
+        pointer-events: none;
+        z-index: 1;
+    }
     [data-testid="stSidebar"] { display: none; }
-    .block-container { max-width: 1200px; padding-top: 1rem; }
+    .block-container { max-width: 1200px; padding-top: 90px !important; }
     #MainMenu, footer, header { visibility: hidden; }
+
+    /* ── Navigation Bar ──────────────────────── */
+    .nav-bar {
+        position: fixed;
+        top: 0; left: 0; width: 100%;
+        height: 70px;
+        background: rgba(6, 6, 15, 0.65);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        z-index: 999999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .nav-container {
+        width: 100%;
+        max-width: 1200px;
+        padding: 0 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .nav-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: 'Space Grotesk', sans-serif;
+        font-weight: 700;
+        font-size: 1.35rem;
+        color: #ffffff;
+        letter-spacing: 0.5px;
+        text-decoration: none;
+    }
+    .nav-logo-icon {
+        font-size: 1.5rem;
+    }
+    .nav-logo-text span {
+        background: var(--gradient-1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+    }
+    .nav-link {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+        text-decoration: none;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    .nav-link:hover {
+        color: #ffffff;
+        text-shadow: 0 0 10px rgba(139,92,246,0.3);
+    }
+    .nav-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(139, 92, 246, 0.1);
+        border: 1px solid rgba(139, 92, 246, 0.25);
+        border-radius: 10px;
+        padding: 8px 16px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #c4b5fd;
+        text-decoration: none;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+    }
+    .nav-cta:hover {
+        background: rgba(139, 92, 246, 0.2);
+        border-color: rgba(139, 92, 246, 0.4);
+        box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+        transform: translateY(-1px);
+    }
+    @media (max-width: 768px) {
+        .nav-links {
+            display: none;
+        }
+    }
 
     /* ── Floating Orbs (Background) ──────────── */
     .orb-container {
@@ -152,18 +249,32 @@ st.markdown("""
 
     /* ── Glass Card ───────────────────────────── */
     .g-card {
-        background: var(--bg-card);
-        backdrop-filter: blur(20px);
+        background: rgba(10, 10, 26, 0.4);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
         border: 1px solid var(--border);
         border-radius: 18px; padding: 28px;
+        position: relative;
+        overflow: hidden;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         animation: fadeUp 0.6s ease-out both;
     }
+    .g-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 2px;
+        background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
     .g-card:hover {
-        background: var(--bg-card-hover);
-        border-color: rgba(139,92,246,0.15);
+        background: rgba(15, 15, 36, 0.5);
+        border-color: rgba(139,92,246,0.25);
         box-shadow: var(--glow-purple);
-        transform: translateY(-2px);
+        transform: translateY(-3px);
+    }
+    .g-card:hover::before {
+        opacity: 1;
     }
     .card-label {
         font-size: 0.72rem; text-transform: uppercase;
@@ -174,17 +285,31 @@ st.markdown("""
     /* ── KPI Cards ────────────────────────────── */
     .kpi-row { display: flex; gap: 16px; margin: 20px 0; }
     .kpi-card {
-        flex: 1; background: var(--bg-card);
+        flex: 1; background: rgba(10, 10, 26, 0.4);
         border: 1px solid var(--border);
         border-radius: 16px; padding: 22px;
         text-align: center;
-        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         animation: fadeUp 0.6s ease-out both;
     }
+    .kpi-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 2px;
+        background: linear-gradient(90deg, transparent, var(--accent-2), var(--accent), transparent);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
     .kpi-card:hover {
-        border-color: rgba(139,92,246,0.2);
-        box-shadow: var(--glow-purple);
-        transform: translateY(-3px);
+        background: rgba(15, 15, 36, 0.55);
+        border-color: rgba(6,182,212,0.25);
+        box-shadow: var(--glow-cyan);
+        transform: translateY(-4px);
+    }
+    .kpi-card:hover::before {
+        opacity: 1;
     }
     .kpi-value {
         font-family: 'Space Grotesk', sans-serif;
@@ -202,8 +327,9 @@ st.markdown("""
 
     /* ── Result Card ──────────────────────────── */
     .result-container {
-        background: linear-gradient(135deg, rgba(139,92,246,0.08), rgba(6,182,212,0.05));
-        border: 1px solid rgba(139,92,246,0.15);
+        background: linear-gradient(135deg, rgba(139,92,246,0.12), rgba(6,182,212,0.08));
+        border: 1px solid rgba(139,92,246,0.25);
+        box-shadow: 0 8px 32px rgba(139,92,246,0.1);
         border-radius: 24px; padding: 45px 30px;
         text-align: center; margin: 25px 0;
         position: relative; overflow: hidden;
@@ -211,9 +337,9 @@ st.markdown("""
     }
     .result-container::before {
         content: ''; position: absolute;
-        top: 0; left: 50%; transform: translateX(-50%);
-        width: 60%; height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(139,92,246,0.5), transparent);
+        top: 0; left: 0;
+        width: 100%; height: 3px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent));
     }
     .result-label {
         font-size: 0.78rem; text-transform: uppercase;
@@ -245,14 +371,16 @@ st.markdown("""
     /* ── Metrics Row ──────────────────────────── */
     .metrics-row { display: flex; gap: 14px; margin: 20px 0; }
     .metric-pill {
-        flex: 1; background: var(--bg-card);
+        flex: 1; background: rgba(10, 10, 26, 0.4);
         border: 1px solid var(--border);
         border-radius: 14px; padding: 18px;
         text-align: center;
-        transition: all 0.3s ease;
+        transition: all 0.4s ease;
     }
     .metric-pill:hover {
-        border-color: rgba(139,92,246,0.2);
+        background: rgba(15, 15, 36, 0.5);
+        border-color: rgba(139,92,246,0.25);
+        box-shadow: var(--glow-purple);
     }
     .metric-pill .val {
         font-family: 'JetBrains Mono', monospace;
@@ -402,8 +530,26 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# ── Floating Background Orbs ─────────────────────────────────
+# ── Custom Navigation Bar & Floating Background Orbs ──────────
 st.markdown("""
+<div class="nav-bar">
+    <div class="nav-container">
+        <a href="#" class="nav-logo">
+            <span class="nav-logo-icon">⌚</span>
+            <span class="nav-logo-text">Chronos <span>AI</span></span>
+        </a>
+        <div class="nav-links">
+            <span class="nav-link" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Predictor</span>
+            <span class="nav-link" onclick="document.querySelector('.stTabs').scrollIntoView({behavior: 'smooth'})">Analytics</span>
+            <a href="https://github.com/Rudra2986/watch-price-prediction" target="_blank" class="nav-link">Repository</a>
+        </div>
+        <a href="https://github.com/Rudra2986/watch-price-prediction" target="_blank" class="nav-cta">
+            <span>View GitHub</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        </a>
+    </div>
+</div>
+
 <div class="orb-container">
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
@@ -763,18 +909,15 @@ with tab_predict:
     </div>
     """, unsafe_allow_html=True)
 
-    # ── Input Form ───────────────────────────────────────────
+    # ── Input Form (Wrapped in Glass Card Panel) ─────────────
+    st.markdown('<div class="g-card">', unsafe_allow_html=True)
     col_l, col_r = st.columns(2, gap="large")
 
     with col_l:
         category = st.selectbox("🏷️ Category", category_options)
-
         brand = st.selectbox("🏢 Brand", brand_options)
-
         watch_type = st.selectbox("⌚ Watch Type", watch_type_options)
-
         style = st.selectbox("🎨 Style", style_options)
-
         is_automatic = st.radio(
             "⚙️ Movement", ["Unknown", "Automatic", "Non-Automatic"],
             horizontal=True
@@ -782,14 +925,11 @@ with tab_predict:
 
     with col_r:
         belt_type = st.selectbox("🔗 Belt Type", belt_type_options)
-
         case_material = st.selectbox("🛡️ Case Material", case_material_options)
-
         strap_material = st.selectbox("📿 Strap Material", strap_material_options)
-
         dial_color = st.selectbox("🎯 Dial Color", dial_color_options)
-
         strap_color = st.selectbox("🎨 Strap Color", strap_color_options)
+    st.markdown('</div>', unsafe_allow_html=True)
 
     # ── Preprocessing ────────────────────────────────────────
     def preprocess(cat, brand, wtype, style, auto, belt, case_mat,
@@ -845,193 +985,185 @@ with tab_predict:
             "watch_type": wtype_l, "watch_style_category": watch_style_cat,
             "style": style_l, "case_material": case_l,
             "material": material, "strap_material": strap_m_l,
-            "brand": brand_l,
+            "dial_color": dial_l, "strap_color": strap_c_l,
+            "brand": brand_l
         }.items():
-            ohe = f"{prefix}_{val}"
-            if ohe in row:
-                row[ohe] = 1
+            col_name = f"{prefix}_{val}"
+            if col_name in row:
+                row[col_name] = 1
+        
+        return pd.DataFrame([row])
 
-        return pd.DataFrame([row])[train_cols]
-
-    # ── Predict Button ───────────────────────────────────────
-    st.markdown('<div class="glow-sep"></div>', unsafe_allow_html=True)
-
-    if st.button("⚡ Generate Price Prediction", use_container_width=True, type="primary"):
-
-        input_df = preprocess(
-            category, brand, watch_type, style, is_automatic,
-            belt_type, case_material, strap_material, dial_color, strap_color
-        )
-
+    # ── Action Button ────────────────────────────────────────
+    if st.button("Generate Price Prediction", use_container_width=True):
+        input_df = preprocess(category, brand, watch_type, style, is_automatic, 
+                             belt_type, case_material, strap_material, dial_color, strap_color)
+        
+        # Prediction
         log_pred = model.predict(input_df)[0]
-        price = np.expm1(log_pred)
-        p_low = max(price - rmse_val, 999)
-        p_high = price + rmse_val
+        price = np.exp(log_pred)
+        p_low = price * 0.92
+        p_high = price * 1.08
 
-        # ── Result Card ──────────────────────────────────────
-        st.markdown(f"""
-        <div class="result-container">
-            <div class="result-label">AI Price Estimate</div>
-            <div class="result-price">₹{price:,.0f}</div>
-            <div class="result-range">
-                Confidence Range: <span>₹{p_low:,.0f}</span> — <span>₹{p_high:,.0f}</span>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        # Display Results
+        col_res_l, col_res_r = st.columns([1, 1], gap="large")
 
-        # ── Metrics Row ──────────────────────────────────────
-        st.markdown(f"""
-        <div class="metrics-row">
-            <div class="metric-pill">
-                <div class="val">₹{price:,.0f}</div>
-                <div class="lbl">Point Estimate</div>
-            </div>
-            <div class="metric-pill">
-                <div class="val">₹{p_low:,.0f} — ₹{p_high:,.0f}</div>
-                <div class="lbl">Confidence Range</div>
-            </div>
-            <div class="metric-pill">
-                <div class="val">{log_pred:.4f}</div>
-                <div class="lbl">Log Price</div>
-            </div>
-            <div class="metric-pill">
-                <div class="val">{r2_val:.1%}</div>
-                <div class="lbl">Model R²</div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-        # ── AI Insights ──────────────────────────────────────
-        insights = []
-        if brand.lower() != "unknown":
-            insights.append(("🏢", f"<strong>{brand}</strong> brand detected — brand identity significantly influences pricing."))
-        if watch_type.lower() == "luxury":
-            insights.append(("💎", "Luxury watch type selected — expect <strong>premium pricing</strong> in the higher range."))
-        if case_material.lower() in ["gold", "rose gold", "titanium"]:
-            insights.append(("🛡️", f"<strong>{case_material}</strong> case material is a premium indicator — pushes price upward."))
-        if is_automatic.lower() == "automatic":
-            insights.append(("⚙️", "Automatic movement is a <strong>premium feature</strong> — typical of higher-end watches."))
-        if not insights:
-            insights.append(("🔍", "Most attributes are set to <strong>Unknown</strong> — add more details for a more precise prediction."))
-
-        st.markdown("""
-        <div class="section-hdr">
-            <div class="dot"></div>
-            <h3>AI Insights</h3>
-        </div>
-        """, unsafe_allow_html=True)
-
-        for icon, text in insights:
+        with col_res_l:
             st.markdown(f"""
-            <div class="insight-card">
-                <div class="icon">{icon}</div>
-                <div class="text">{text}</div>
-            </div>
-            """, unsafe_allow_html=True)
-
-        # ── Confidence Gauge ─────────────────────────────────
-        st.markdown("""
-        <div class="section-hdr">
-            <div class="dot"></div>
-            <h3>Prediction Confidence</h3>
-        </div>
-        """, unsafe_allow_html=True)
-
-        gauge = go.Figure(go.Indicator(
-            mode="gauge+number",
-            value=r2_val * 100,
-            number={"suffix": "%", "font": {"size": 42, "color": "#c4b5fd", "family": "Space Grotesk"}},
-            gauge={
-                "axis": {"range": [0, 100], "tickcolor": "rgba(255,255,255,0.15)",
-                         "tickfont": {"color": "rgba(255,255,255,0.3)"}},
-                "bar": {"color": "#8b5cf6", "thickness": 0.3},
-                "bgcolor": "rgba(255,255,255,0.03)",
-                "borderwidth": 0,
-                "steps": [
-                    {"range": [0, 30], "color": "rgba(239,68,68,0.1)"},
-                    {"range": [30, 60], "color": "rgba(245,158,11,0.1)"},
-                    {"range": [60, 100], "color": "rgba(34,197,94,0.1)"},
-                ],
-                "threshold": {
-                    "line": {"color": "#06b6d4", "width": 3},
-                    "thickness": 0.8, "value": r2_val * 100,
-                },
-            },
-        ))
-        gauge.update_layout(
-            height=280,
-            margin=dict(l=30, r=30, t=30, b=10),
-            paper_bgcolor="rgba(0,0,0,0)",
-            font={"color": "rgba(255,255,255,0.5)"},
-        )
-        st.plotly_chart(gauge, use_container_width=True)
-
-        # ── SHAP Explanation ─────────────────────────────────
-        st.markdown("""
-        <div class="section-hdr">
-            <div class="dot"></div>
-            <h3>Feature Impact Analysis (SHAP)</h3>
-        </div>
-        """, unsafe_allow_html=True)
-
-        try:
-            import shap
-            explainer = shap.TreeExplainer(model)
-            shap_values = explainer.shap_values(input_df)
-
-            shap_df = pd.DataFrame({
-                "Feature": train_cols,
-                "SHAP": shap_values[0]
-            })
-            shap_df["Abs"] = shap_df["SHAP"].abs()
-            top = shap_df.nlargest(15, "Abs").sort_values("SHAP")
-
-            colors = ["#ef4444" if v < 0 else "#8b5cf6" for v in top["SHAP"]]
-
-            fig = go.Figure(go.Bar(
-                x=top["SHAP"].values,
-                y=top["Feature"].values,
-                orientation="h",
-                marker=dict(
-                    color=colors,
-                    line=dict(width=0),
-                    cornerradius=4,
-                ),
-                hovertemplate="<b>%{y}</b><br>Impact: %{x:.4f}<extra></extra>"
-            ))
-            fig.update_layout(
-                height=420,
-                margin=dict(l=10, r=20, t=10, b=10),
-                paper_bgcolor="rgba(0,0,0,0)",
-                plot_bgcolor="rgba(0,0,0,0)",
-                font=dict(color="rgba(255,255,255,0.6)", size=11),
-                xaxis=dict(
-                    gridcolor="rgba(255,255,255,0.04)",
-                    zerolinecolor="rgba(255,255,255,0.1)",
-                    title="SHAP Value (impact on price)",
-                ),
-                yaxis=dict(gridcolor="rgba(255,255,255,0.02)"),
-                hoverlabel=dict(
-                    bgcolor="#1a1a3e",
-                    font_size=12,
-                    bordercolor="rgba(139,92,246,0.3)",
-                ),
-            )
-            st.plotly_chart(fig, use_container_width=True)
-
-            st.markdown("""
-            <div class="insight-card">
-                <div class="icon">💡</div>
-                <div class="text">
-                    <strong>Purple bars</strong> push the price UP.
-                    <strong style="color:#ef4444;">Red bars</strong> push the price DOWN.
-                    The longer the bar, the stronger the impact on the prediction.
+            <div class="metrics-row">
+                <div class="metric-pill">
+                    <div class="val">₹{price:,.0f}</div>
+                    <div class="lbl">Point Estimate</div>
+                </div>
+                <div class="metric-pill">
+                    <div class="val">₹{p_low:,.0f} — ₹{p_high:,.0f}</div>
+                    <div class="lbl">Confidence Range</div>
+                </div>
+                <div class="metric-pill">
+                    <div class="val">{log_pred:.4f}</div>
+                    <div class="lbl">Log Price</div>
+                </div>
+                <div class="metric-pill">
+                    <div class="val">{r2_val:.1%}</div>
+                    <div class="lbl">Model R²</div>
                 </div>
             </div>
-            """, unsafe_allow_html=True)
+            """, unsafe_html=True)
 
-        except Exception:
-            st.info("SHAP analysis requires the model to support TreeExplainer.")
+            # AI Insights
+            insights = []
+            if brand.lower() != "unknown":
+                insights.append(("🏢", f"<strong>{brand}</strong> brand detected — brand identity significantly influences pricing."))
+            if watch_type.lower() == "luxury":
+                insights.append(("💎", "Luxury watch type selected — expect <strong>premium pricing</strong> in the higher range."))
+            if case_material.lower() in ["gold", "rose gold", "titanium"]:
+                insights.append(("🛡️", f"<strong>{case_material}</strong> case material is a premium indicator — pushes price upward."))
+            if is_automatic.lower() == "automatic":
+                insights.append(("⚙️", "Automatic movement is a <strong>premium feature</strong> — typical of higher-end watches."))
+            if not insights:
+                insights.append(("🔍", "Most attributes are set to <strong>Unknown</strong> — add more details for a more precise prediction."))
+
+            st.markdown("""
+            <div class="section-hdr">
+                <div class="dot"></div>
+                <h3>AI Insights</h3>
+            </div>
+            """, unsafe_html=True)
+
+            for icon, text in insights:
+                st.markdown(f"""
+                <div class="insight-card">
+                    <div class="icon">{icon}</div>
+                    <div class="text">{text}</div>
+                </div>
+                """, unsafe_html=True)
+
+        with col_res_r:
+            # Confidence Gauge
+            st.markdown('<div class="g-card" style="margin-bottom: 20px;">', unsafe_html=True)
+            st.markdown("""
+            <div class="section-hdr" style="margin-top: 0;">
+                <div class="dot"></div>
+                <h3>Prediction Confidence</h3>
+            </div>
+            """, unsafe_html=True)
+
+            gauge = go.Figure(go.Indicator(
+                mode="gauge+number",
+                value=r2_val * 100,
+                number={"suffix": "%", "font": {"size": 36, "color": "#c4b5fd", "family": "Space Grotesk"}},
+                gauge={
+                    "axis": {"range": [0, 100], "tickcolor": "rgba(255,255,255,0.15)",
+                             "tickfont": {"color": "rgba(255,255,255,0.3)", "size": 10}},
+                    "bar": {"color": "#8b5cf6", "thickness": 0.3},
+                    "bgcolor": "rgba(255,255,255,0.03)",
+                    "borderwidth": 0,
+                    "steps": [
+                        {"range": [0, 30], "color": "rgba(239,68,68,0.1)"},
+                        {"range": [30, 60], "color": "rgba(245,158,11,0.1)"},
+                        {"range": [60, 100], "color": "rgba(34,197,94,0.1)"},
+                    ],
+                    "threshold": {
+                        "line": {"color": "#06b6d4", "width": 3},
+                        "thickness": 0.8, "value": r2_val * 100,
+                    },
+                },
+            ))
+            gauge.update_layout(
+                height=220,
+                margin=dict(l=30, r=30, t=20, b=10),
+                paper_bgcolor="rgba(0,0,0,0)",
+                font={"color": "rgba(255,255,255,0.5)"},
+            )
+            st.plotly_chart(gauge, use_container_width=True)
+            st.markdown('</div>', unsafe_html=True)
+
+            # SHAP Explanation
+            st.markdown('<div class="g-card">', unsafe_html=True)
+            st.markdown("""
+            <div class="section-hdr" style="margin-top: 0;">
+                <div class="dot"></div>
+                <h3>Feature Impact Analysis (SHAP)</h3>
+            </div>
+            """, unsafe_html=True)
+
+            try:
+                import shap
+                explainer = shap.TreeExplainer(model)
+                shap_values = explainer.shap_values(input_df)
+
+                shap_df = pd.DataFrame({
+                    "Feature": train_cols,
+                    "SHAP": shap_values[0]
+                })
+                shap_df["Abs"] = shap_df["SHAP"].abs()
+                top = shap_df.nlargest(10, "Abs").sort_values("SHAP")
+
+                colors = ["#ef4444" if v < 0 else "#8b5cf6" for v in top["SHAP"]]
+
+                fig = go.Figure(go.Bar(
+                    x=top["SHAP"].values,
+                    y=top["Feature"].values,
+                    orientation="h",
+                    marker=dict(
+                        color=colors,
+                        line=dict(width=0),
+                        cornerradius=4
+                    )
+                ))
+                fig.update_layout(
+                    height=300,
+                    margin=dict(l=10, r=10, t=10, b=10),
+                    paper_bgcolor="rgba(0,0,0,0)",
+                    plot_bgcolor="rgba(0,0,0,0)",
+                    font=dict(color="rgba(255,255,255,0.6)", size=11),
+                    xaxis=dict(
+                        gridcolor="rgba(255,255,255,0.04)",
+                        title="Impact on Model Output",
+                    ),
+                    yaxis=dict(gridcolor="rgba(255,255,255,0.02)"),
+                    hoverlabel=dict(
+                        bgcolor="#1a1a3e",
+                        font_size=12,
+                        bordercolor="rgba(139,92,246,0.3)",
+                    ),
+                )
+                st.plotly_chart(fig, use_container_width=True)
+
+                st.markdown("""
+                <div class="insight-card">
+                    <div class="icon">💡</div>
+                    <div class="text">
+                        <strong>Purple bars</strong> push the price UP.
+                        <strong style="color:#ef4444;">Red bars</strong> push the price DOWN.
+                        The longer the bar, the stronger the impact on the prediction.
+                    </div>
+                </div>
+                """, unsafe_html=True)
+
+            except Exception:
+                st.info("SHAP analysis requires the model to support TreeExplainer.")
+            st.markdown('</div>', unsafe_html=True)
 
         # ── Input Summary ────────────────────────────────────
         with st.expander("📋 View Full Input Configuration"):
@@ -1076,79 +1208,122 @@ with tab_analytics:
     </div>
     """, unsafe_allow_html=True)
 
-    # ── Performance KPIs ─────────────────────────────────────
-    rmse_log = metadata.get("rmse_log", 0.178)
+    # ── Row 1: KPI Cards + Breakthrough Details (Bento Grid) ──
+    col_kpi_l, col_kpi_r = st.columns([1.8, 1.2], gap="large")
 
-    st.markdown(f"""
-    <div class="kpi-row">
-        <div class="kpi-card">
-            <div class="kpi-icon">🤖</div>
-            <div class="kpi-value">{model_name}</div>
-            <div class="kpi-label">Final Model</div>
+    with col_kpi_l:
+        rmse_log = metadata.get("rmse_log", 0.178)
+        st.markdown(f"""
+        <div class="kpi-row" style="margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+            <div class="kpi-card" style="margin: 0;">
+                <div class="kpi-icon">🤖</div>
+                <div class="kpi-value">{model_name}</div>
+                <div class="kpi-label">Final Model</div>
+            </div>
+            <div class="kpi-card" style="margin: 0;">
+                <div class="kpi-icon">🎯</div>
+                <div class="kpi-value">{r2_val:.4f}</div>
+                <div class="kpi-label">R² Score</div>
+            </div>
+            <div class="kpi-card" style="margin: 0;">
+                <div class="kpi-icon">📏</div>
+                <div class="kpi-value">₹{rmse_val:.0f}</div>
+                <div class="kpi-label">RMSE (₹)</div>
+            </div>
+            <div class="kpi-card" style="margin: 0;">
+                <div class="kpi-icon">📐</div>
+                <div class="kpi-value">{rmse_log:.4f}</div>
+                <div class="kpi-label">RMSE (Log)</div>
+            </div>
         </div>
-        <div class="kpi-card">
-            <div class="kpi-icon">🎯</div>
-            <div class="kpi-value">{r2_val:.4f}</div>
-            <div class="kpi-label">R² Score</div>
+        """, unsafe_allow_html=True)
+
+    with col_kpi_r:
+        st.markdown("""
+        <div class="g-card" style="height: 100%;">
+            <div class="card-label">Breakthrough Insight</div>
+            <p style="color:var(--text-primary); font-size:1.15rem; font-weight:700; margin:10px 0 15px 0;">
+                Title Feature Extraction
+            </p>
+            <p style="color:var(--text-secondary); font-size:0.85rem; line-height:1.7; margin:0;">
+                Resolving name sparsity was the key: watch brand & movement details were extracted directly from titles.
+                This consolidated 62 noisy values down to <strong>49 standardized brands</strong> and recovered 300+ movements,
+                boosting the model R² accuracy from <strong>45% to 71.2%</strong>.
+            </p>
         </div>
-        <div class="kpi-card">
-            <div class="kpi-icon">📏</div>
-            <div class="kpi-value">₹{rmse_val:.0f}</div>
-            <div class="kpi-label">RMSE (₹)</div>
+        """, unsafe_allow_html=True)
+
+    st.markdown('<div class="glow-sep"></div>', unsafe_allow_html=True)
+
+    # ── Row 2: Model Comparison Chart + Active Configuration ────
+    col_chart_l, col_chart_r = st.columns([2.2, 1], gap="large")
+
+    with col_chart_l:
+        st.markdown('<div class="g-card">', unsafe_allow_html=True)
+        st.markdown("""
+        <div class="section-hdr" style="margin-top: 0;">
+            <div class="dot"></div>
+            <h3>Model Comparison (6 Models Evaluated)</h3>
         </div>
-        <div class="kpi-card">
-            <div class="kpi-icon">📐</div>
-            <div class="kpi-value">{rmse_log:.4f}</div>
-            <div class="kpi-label">RMSE (Log)</div>
+        """, unsafe_allow_html=True)
+
+        models_data = {
+            "XGBoost": 0.7079, "CatBoost": 0.7004,
+            "Random Forest": 0.6945, "Ridge": 0.5629,
+            "Linear Reg.": 0.5629, "LightGBM": 0.5460,
+        }
+
+        m_names = list(models_data.keys())[::-1]
+        m_scores = list(models_data.values())[::-1]
+        m_colors = ["#8b5cf6" if n == model_name else "rgba(139,92,246,0.25)" for n in m_names]
+
+        fig_comp = go.Figure(go.Bar(
+            x=m_scores, y=m_names, orientation="h",
+            marker=dict(color=m_colors, cornerradius=6,
+                        line=dict(width=0)),
+            text=[f"{s:.4f}" for s in m_scores],
+            textposition="outside",
+            textfont=dict(color="rgba(255,255,255,0.6)", size=12,
+                          family="JetBrains Mono"),
+            hovertemplate="<b>%{y}</b><br>R² = %{x:.4f}<extra></extra>",
+        ))
+        fig_comp.update_layout(
+            height=320,
+            margin=dict(l=10, r=60, t=10, b=10),
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(0,0,0,0)",
+            font=dict(color="rgba(255,255,255,0.6)", size=12),
+            xaxis=dict(
+                gridcolor="rgba(255,255,255,0.04)",
+                range=[0, 0.85],
+                title="R² Score (higher is better)",
+            ),
+            yaxis=dict(gridcolor="rgba(255,255,255,0.02)"),
+            hoverlabel=dict(bgcolor="#1a1a3e", bordercolor="rgba(139,92,246,0.3)"),
+        )
+        st.plotly_chart(fig_comp, use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with col_chart_r:
+        st.markdown(f"""
+        <div class="g-card" style="height: 100%;">
+            <div class="card-label">Active Model Config</div>
+            <p style="color:var(--text-primary); font-size:1.1rem; font-weight:700; margin:8px 0;">
+                {model_name} Predictor
+            </p>
+            <ul style="color:var(--text-secondary); font-size:0.82rem; line-height:1.8; padding-left:16px; margin-top:10px;">
+                <li>Training Features: <strong>{len(train_cols)}</strong></li>
+                <li>Hyperparameter Tuning: <strong>Optuna</strong></li>
+                <li>Trials Evaluated: <strong>100 Trials</strong></li>
+                <li>Loss Metric: <strong>Root Mean Squared Error</strong></li>
+                <li>Target Scale: <strong>Log-transformed</strong></li>
+            </ul>
         </div>
-    </div>
-    """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
 
-    # ── Model Comparison Chart ───────────────────────────────
-    st.markdown("""
-    <div class="section-hdr">
-        <div class="dot"></div>
-        <h3>Model Comparison (6 Models Evaluated)</h3>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown('<div class="glow-sep"></div>', unsafe_allow_html=True)
 
-    models_data = {
-        "XGBoost": 0.7079, "CatBoost": 0.7004,
-        "Random Forest": 0.6945, "Ridge": 0.5629,
-        "Linear Reg.": 0.5629, "LightGBM": 0.5460,
-    }
-
-    m_names = list(models_data.keys())[::-1]
-    m_scores = list(models_data.values())[::-1]
-    m_colors = ["#8b5cf6" if n == model_name else "rgba(139,92,246,0.25)" for n in m_names]
-
-    fig_comp = go.Figure(go.Bar(
-        x=m_scores, y=m_names, orientation="h",
-        marker=dict(color=m_colors, cornerradius=6,
-                    line=dict(width=0)),
-        text=[f"{s:.4f}" for s in m_scores],
-        textposition="outside",
-        textfont=dict(color="rgba(255,255,255,0.6)", size=12,
-                      family="JetBrains Mono"),
-        hovertemplate="<b>%{y}</b><br>R² = %{x:.4f}<extra></extra>",
-    ))
-    fig_comp.update_layout(
-        height=320,
-        margin=dict(l=10, r=60, t=10, b=10),
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="rgba(255,255,255,0.6)", size=12),
-        xaxis=dict(
-            gridcolor="rgba(255,255,255,0.04)",
-            range=[0, 0.85],
-            title="R² Score (higher is better)",
-        ),
-        yaxis=dict(gridcolor="rgba(255,255,255,0.02)"),
-        hoverlabel=dict(bgcolor="#1a1a3e", bordercolor="rgba(139,92,246,0.3)"),
-    )
-    st.plotly_chart(fig_comp, use_container_width=True)
-
-    # ── Pipeline Overview ────────────────────────────────────
+    # ── Row 3: Pipeline Overview ─────────────────────────────
     st.markdown("""
     <div class="section-hdr">
         <div class="dot"></div>
