@@ -703,78 +703,162 @@ with col_hero_right:
         const watchGroup = new THREE.Group();
         scene.add(watchGroup);
 
-        // Materials
-        const goldMaterial = new THREE.MeshBasicMaterial({ color: 0xdfb15b, wireframe: true, transparent: true, opacity: 0.85 });
-        const mintMaterial = new THREE.MeshBasicMaterial({ color: 0x34d399, wireframe: true, transparent: true, opacity: 0.85 });
-        const emeraldMaterial = new THREE.MeshBasicMaterial({ color: 0x10b981, transparent: true, opacity: 0.9 });
-        const dialMaterial = new THREE.MeshBasicMaterial({ color: 0x0a140f, transparent: true, opacity: 0.45 });
-        const ticksMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.7 });
+        // ── STUDIO LIGHTING SYSTEM ──────────────────
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.55);
+        scene.add(ambientLight);
 
-        // Bezel / Case
-        const bezelGeom = new THREE.TorusGeometry(1.6, 0.15, 8, 48);
-        const bezel = new THREE.Mesh(bezelGeom, goldMaterial);
-        watchGroup.add(bezel);
-        
-        const bezelInnerGeom = new THREE.TorusGeometry(1.4, 0.05, 8, 48);
-        const bezelInner = new THREE.Mesh(bezelInnerGeom, mintMaterial);
+        // Key light (warm golden/white specular highlight)
+        const keyLight = new THREE.DirectionalLight(0xffffff, 0.95);
+        keyLight.position.set(5, 5, 4);
+        scene.add(keyLight);
+
+        // Backlight/Rim light (subtle green to highlight edge details)
+        const rimLight = new THREE.DirectionalLight(0x34d399, 0.35);
+        rimLight.position.set(-5, -5, 2);
+        scene.add(rimLight);
+
+        // Close proximity point light for shiny watch face glint
+        const faceGlint = new THREE.PointLight(0xdfb15b, 0.7, 10);
+        faceGlint.position.set(0, 0, 3.5);
+        scene.add(faceGlint);
+
+        // ── PREMIUM MATERIALS ───────────────────────
+        const goldMaterial = new THREE.MeshStandardMaterial({
+            color: 0xdfb15b,
+            metalness: 0.92,
+            roughness: 0.15
+        });
+        const steelMaterial = new THREE.MeshStandardMaterial({
+            color: 0x242e2a,
+            metalness: 0.85,
+            roughness: 0.28
+        });
+        const dialFaceMaterial = new THREE.MeshStandardMaterial({
+            color: 0x040806,
+            roughness: 0.8,
+            metalness: 0.15
+        });
+        const glassMaterial = new THREE.MeshStandardMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.18,
+            roughness: 0.02,
+            metalness: 0.1
+        });
+        const mintHandMaterial = new THREE.MeshStandardMaterial({
+            color: 0x34d399,
+            metalness: 0.7,
+            roughness: 0.2
+        });
+        const strapMaterial = new THREE.MeshStandardMaterial({
+            color: 0x090f0c,
+            roughness: 0.9,
+            metalness: 0.1
+        });
+
+        // ── WATCH ELEMENTS ──────────────────────────
+        // 1. Outer Case / Body (Stainless Steel Backing)
+        const caseBodyGeom = new THREE.CylinderGeometry(1.58, 1.58, 0.24, 60);
+        caseBodyGeom.rotateX(Math.PI / 2);
+        const caseBody = new THREE.Mesh(caseBodyGeom, steelMaterial);
+        watchGroup.add(caseBody);
+
+        // 2. Premium Shiny Gold Bezel
+        const bezelOuterGeom = new THREE.TorusGeometry(1.5, 0.08, 16, 80);
+        const bezelOuter = new THREE.Mesh(bezelOuterGeom, goldMaterial);
+        bezelOuter.position.z = 0.11;
+        watchGroup.add(bezelOuter);
+
+        // 3. Inner Gold Ring
+        const bezelInnerGeom = new THREE.TorusGeometry(1.42, 0.03, 12, 80);
+        const bezelInner = new THREE.Mesh(bezelInnerGeom, mintHandMaterial);
+        bezelInner.position.z = 0.11;
         watchGroup.add(bezelInner);
 
-        // Dial Face
-        const dialGeom = new THREE.CylinderGeometry(1.35, 1.35, 0.05, 32);
+        // 4. Dial Face
+        const dialGeom = new THREE.CylinderGeometry(1.39, 1.39, 0.02, 60);
         dialGeom.rotateX(Math.PI / 2);
-        const dial = new THREE.Mesh(dialGeom, dialMaterial);
+        const dial = new THREE.Mesh(dialGeom, dialFaceMaterial);
+        dial.position.z = 0.08;
         watchGroup.add(dial);
 
-        // Hour Ticks
+        // 5. Sapphire Crystal Glass Cover
+        const glassGeom = new THREE.CylinderGeometry(1.41, 1.41, 0.015, 60);
+        glassGeom.rotateX(Math.PI / 2);
+        const glass = new THREE.Mesh(glassGeom, glassMaterial);
+        glass.position.z = 0.14;
+        watchGroup.add(glass);
+
+        // 6. Luxury Metallic Hour Ticks
         const ticksGroup = new THREE.Group();
         for (let i = 0; i < 12; i++) {
             const angle = (i * Math.PI * 2) / 12;
-            const size = (i % 3 === 0) ? 0.2 : 0.08;
-            const tickGeom = new THREE.BoxGeometry(0.04, size, 0.04);
-            const tick = new THREE.Mesh(tickGeom, ticksMaterial);
-            tick.position.x = Math.sin(angle) * 1.25;
-            tick.position.y = Math.cos(angle) * 1.25;
+            const isMajor = (i % 3 === 0);
+            const sizeH = isMajor ? 0.16 : 0.08;
+            const sizeW = isMajor ? 0.04 : 0.02;
+            const tickGeom = new THREE.BoxGeometry(sizeW, sizeH, 0.03);
+            const tick = new THREE.Mesh(tickGeom, goldMaterial);
+            tick.position.x = Math.sin(angle) * 1.18;
+            tick.position.y = Math.cos(angle) * 1.18;
+            tick.position.z = 0.095;
             tick.rotation.z = -angle;
             ticksGroup.add(tick);
         }
         watchGroup.add(ticksGroup);
 
-        // Strap Lugs and Bands
-        const strapTopGeom = new THREE.BoxGeometry(0.8, 1.2, 0.1);
-        const strapTop = new THREE.Mesh(strapTopGeom, goldMaterial);
-        strapTop.position.y = 2.1;
-        strapTop.position.z = -0.15;
-        strapTop.rotation.x = -0.15;
+        // 7. Leather Strap
+        const strapTopGeom = new THREE.BoxGeometry(0.72, 1.8, 0.08);
+        strapTopGeom.translate(0, 0.9, 0);
+        const strapTop = new THREE.Mesh(strapTopGeom, strapMaterial);
+        strapTop.position.y = 1.38;
+        strapTop.position.z = -0.06;
+        strapTop.rotation.x = -0.08;
         watchGroup.add(strapTop);
 
-        const strapBottomGeom = new THREE.BoxGeometry(0.8, 1.2, 0.1);
-        const strapBottom = new THREE.Mesh(strapBottomGeom, goldMaterial);
-        strapBottom.position.y = -2.1;
-        strapBottom.position.z = -0.15;
-        strapBottom.rotation.x = 0.15;
+        const strapBottomGeom = new THREE.BoxGeometry(0.72, 1.8, 0.08);
+        strapBottomGeom.translate(0, -0.9, 0);
+        const strapBottom = new THREE.Mesh(strapBottomGeom, strapMaterial);
+        strapBottom.position.y = -1.38;
+        strapBottom.position.z = -0.06;
+        strapBottom.rotation.x = 0.08;
         watchGroup.add(strapBottom);
 
-        // Crown
-        const crownGeom = new THREE.CylinderGeometry(0.15, 0.15, 0.25, 12);
-        const crown = new THREE.Mesh(crownGeom, mintMaterial);
-        crown.position.x = 1.75;
-        crown.rotation.z = -Math.PI / 2;
+        // Gold loops/keepers on the strap
+        const loopGeom = new THREE.BoxGeometry(0.8, 0.14, 0.12);
+        const keeper1 = new THREE.Mesh(loopGeom, goldMaterial);
+        keeper1.position.set(0, 2.1, 0.02);
+        keeper1.rotation.x = -0.08;
+        watchGroup.add(keeper1);
+
+        const keeper2 = new THREE.Mesh(loopGeom, goldMaterial);
+        keeper2.position.set(0, -2.1, 0.02);
+        keeper2.rotation.x = 0.08;
+        watchGroup.add(keeper2);
+
+        // 8. Crown (Adjustment Knob)
+        const crownGeom = new THREE.CylinderGeometry(0.13, 0.13, 0.22, 24);
+        crownGeom.rotateZ(Math.PI / 2);
+        const crown = new THREE.Mesh(crownGeom, goldMaterial);
+        crown.position.set(1.58, 0, 0.04);
         watchGroup.add(crown);
 
-        // Hands Group (offset pivots for proper rotation)
-        const hourHandGeom = new THREE.BoxGeometry(0.08, 0.75, 0.02);
-        hourHandGeom.translate(0, 0.375, 0.02);
+        // 9. Metallic Solid Hands (layered at fractional Z values to prevent glitching)
+        const hourHandGeom = new THREE.BoxGeometry(0.06, 0.72, 0.02);
+        hourHandGeom.translate(0, 0.36, 0);
         const hourHand = new THREE.Mesh(hourHandGeom, goldMaterial);
+        hourHand.position.z = 0.091;
         watchGroup.add(hourHand);
 
-        const minHandGeom = new THREE.BoxGeometry(0.06, 1.1, 0.02);
-        minHandGeom.translate(0, 0.55, 0.04);
-        const minHand = new THREE.Mesh(minHandGeom, mintMaterial);
+        const minHandGeom = new THREE.BoxGeometry(0.04, 1.05, 0.015);
+        minHandGeom.translate(0, 0.525, 0);
+        const minHand = new THREE.Mesh(minHandGeom, mintHandMaterial);
+        minHand.position.z = 0.093;
         watchGroup.add(minHand);
 
-        const secHandGeom = new THREE.BoxGeometry(0.02, 1.25, 0.01);
-        secHandGeom.translate(0, 0.625, 0.06);
-        const secHand = new THREE.Mesh(secHandGeom, emeraldMaterial);
+        const secHandGeom = new THREE.BoxGeometry(0.015, 1.15, 0.01);
+        secHandGeom.translate(0, 0.575, 0);
+        const secHand = new THREE.Mesh(secHandGeom, goldMaterial);
+        secHand.position.z = 0.095;
         watchGroup.add(secHand);
 
         // Background Particles
