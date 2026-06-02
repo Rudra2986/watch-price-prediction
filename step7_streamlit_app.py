@@ -87,7 +87,7 @@ st.markdown("""
         align-items: center;
         justify-content: space-between;
     }
-    .nav-logo {
+    .nav-logo, .nav-logo:hover, .nav-logo:active, .nav-logo:focus {
         display: flex;
         align-items: center;
         gap: 10px;
@@ -96,10 +96,14 @@ st.markdown("""
         font-size: 1.35rem;
         color: #ffffff;
         letter-spacing: 0.5px;
-        text-decoration: none;
+        text-decoration: none !important;
     }
     .nav-logo-icon {
         font-size: 1.5rem;
+        text-decoration: none !important;
+    }
+    .nav-logo-text {
+        text-decoration: none !important;
     }
     .nav-logo-text span {
         background: var(--gradient-1);
@@ -115,7 +119,7 @@ st.markdown("""
         font-size: 0.85rem;
         font-weight: 500;
         color: var(--text-secondary);
-        text-decoration: none;
+        text-decoration: none !important;
         letter-spacing: 0.5px;
         transition: all 0.3s ease;
         cursor: pointer;
@@ -124,7 +128,7 @@ st.markdown("""
         color: #ffffff;
         text-shadow: 0 0 10px rgba(52,211,153,0.3);
     }
-    .nav-cta {
+    .nav-cta, .nav-cta:hover, .nav-cta:active, .nav-cta:focus {
         display: inline-flex;
         align-items: center;
         gap: 6px;
@@ -135,7 +139,7 @@ st.markdown("""
         font-size: 0.8rem;
         font-weight: 600;
         color: #dfb15b;
-        text-decoration: none;
+        text-decoration: none !important;
         letter-spacing: 0.5px;
         transition: all 0.3s ease;
     }
@@ -511,6 +515,20 @@ st.markdown("""
 
     /* ── Mobile Responsiveness ───────────────── */
     @media (max-width: 768px) {
+        .nav-logo-text {
+            display: none !important;
+        }
+        .nav-cta span {
+            display: none !important;
+        }
+        .nav-cta {
+            padding: 8px !important;
+            border-radius: 50% !important;
+        }
+        .stTabs [data-baseweb="tab"] {
+            padding: 6px 16px !important;
+            font-size: 0.78rem !important;
+        }
         .hero-section {
             text-align: center !important;
             padding: 20px 0 !important;
@@ -530,10 +548,17 @@ st.markdown("""
             flex-direction: column !important;
             gap: 10px !important;
         }
+        .result-price {
             font-size: 2.5rem !important;
         }
         .g-card {
             padding: 20px !important;
+        }
+    }
+    @media (max-width: 480px) {
+        .stTabs [data-baseweb="tab"] {
+            padding: 4px 10px !important;
+            font-size: 0.72rem !important;
         }
     }
 </style>
