@@ -534,13 +534,11 @@ css_content = """
     }
 
     /* ── Select Boxes & Inputs ────────────────── */
-    .stSelectbox label {
-        color: var(--text-secondary) !important;
-        font-weight: 500 !important;
-        font-size: 0.88rem !important;
-    }
-    .stRadio label {
-        color: var(--text-secondary) !important;
+    .stSelectbox label, 
+    .stRadio label,
+    div[data-testid="stWidgetLabel"] p,
+    div[data-testid="stWidgetLabel"] span {
+        color: var(--text-primary) !important;
         font-weight: 500 !important;
     }
     div[data-testid="stExpander"] {
@@ -552,17 +550,79 @@ css_content = """
         border-color: var(--border-hover);
     }
 
-    /* ── Focus and widget overrides (removing default blue) ── */
+    /* ── Focus and widget overrides (removing default blue & white blocks) ── */
+    div[data-baseweb="select"] {
+        background-color: var(--bg-warm) !important;
+    }
     div[data-baseweb="select"] > div {
-        border-color: var(--border) !important;
+        background-color: var(--bg-warm) !important;
+        border: 1px solid var(--border) !important;
+    }
+    div[data-baseweb="select"] > div * {
+        background-color: transparent !important;
     }
     div[data-baseweb="select"]:focus-within > div {
         border-color: var(--accent) !important;
         box-shadow: 0 0 0 1px var(--accent) !important;
     }
-    div[role="listbox"] ul li[aria-selected="true"] {
+    div[data-baseweb="select"] * {
+        color: var(--text-primary) !important;
+    }
+    div[data-baseweb="select"] svg {
+        fill: var(--text-secondary) !important;
+    }
+    
+    /* Radio options overrides */
+    div[data-testid="stRadio"] label {
+        color: var(--text-primary) !important;
+    }
+    div[data-testid="stRadio"] label * {
+        color: var(--text-primary) !important;
+    }
+    div[data-testid="stRadio"] label p,
+    div[data-testid="stRadio"] label span,
+    div[data-testid="stRadio"] [data-testid="stMarkdownContainer"] p {
+        color: var(--text-primary) !important;
+    }
+    div[data-testid="stRadio"] label[data-baseweb="radio"] input:checked + div {
+        background-color: var(--accent) !important;
+        border-color: var(--accent) !important;
+    }
+    
+    /* Dropdown Popover & Listbox Menu */
+    div[data-baseweb="popover"],
+    div[role="listbox"],
+    ul[role="listbox"] {
+        background-color: var(--bg-card) !important;
+        border: 1px solid var(--border) !important;
+    }
+    div[data-baseweb="popover"] li,
+    div[role="listbox"] li,
+    ul[role="listbox"] li,
+    div[role="option"] {
+        color: var(--text-primary) !important;
+        background-color: var(--bg-card) !important;
+    }
+    div[data-baseweb="popover"] li:hover,
+    div[role="listbox"] li:hover,
+    ul[role="listbox"] li:hover,
+    div[role="option"]:hover {
         background-color: var(--accent-light) !important;
         color: var(--text-primary) !important;
+    }
+    div[data-baseweb="popover"] li[aria-selected="true"],
+    div[role="listbox"] li[aria-selected="true"],
+    ul[role="listbox"] li[aria-selected="true"],
+    div[role="option"][aria-selected="true"] {
+        background-color: var(--accent-medium) !important;
+        color: var(--text-primary) !important;
+        font-weight: 600 !important;
+    }
+    div[data-testid="stExpander"] summary {
+        color: var(--text-primary) !important;
+    }
+    div[data-testid="stExpander"] summary svg {
+        fill: var(--text-secondary) !important;
     }
 
     /* ── Section Headers ─────────────────────── */
@@ -715,36 +775,7 @@ css_content = """
     }
 
     /* ── BaseWeb Dropdowns & Selectboxes Dark Mode Fixes ── */
-    div[data-baseweb="select"] {
-        background-color: var(--bg-card) !important;
-        color: var(--text-primary) !important;
-    }
-    div[data-baseweb="select"] div {
-        color: var(--text-primary) !important;
-    }
-    div[data-baseweb="select"] svg {
-        fill: var(--text-secondary) !important;
-    }
-    div[data-baseweb="popover"] {
-        background-color: var(--bg-card) !important;
-        border: 1px solid var(--border) !important;
-    }
-    div[data-baseweb="popover"] li {
-        color: var(--text-primary) !important;
-        background-color: var(--bg-card) !important;
-    }
-    div[data-baseweb="popover"] li:hover {
-        background-color: var(--accent-light) !important;
-    }
-    div[data-baseweb="popover"] li[aria-selected="true"] {
-        background-color: var(--accent-medium) !important;
-    }
-    div[data-testid="stExpander"] summary {
-        color: var(--text-primary) !important;
-    }
-    div[data-testid="stExpander"] summary svg {
-        fill: var(--text-secondary) !important;
-    }
+    /* Consolidated above in select boxes / listbox overrides */
 </style>
 """.replace("THEME_VARIABLES_PLACEHOLDER", theme_variables)
 st.markdown(css_content, unsafe_allow_html=True)
