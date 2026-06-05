@@ -24,11 +24,9 @@ st.set_page_config(
 if "theme" not in st.session_state:
     st.session_state.theme = "light"
 
-# Floating theme toggle button in the top-right navbar area
-theme_btn_label = "🌙" if st.session_state.theme == "light" else "☀️"
-if st.button(theme_btn_label, key="theme_toggle_btn"):
-    st.session_state.theme = "dark" if st.session_state.theme == "light" else "light"
-    st.rerun()
+# Floating toggle switch in the top-right navbar area (styled with fixed position in CSS)
+theme_toggle = st.toggle("Dark Theme", value=(st.session_state.theme == "dark"), label_visibility="collapsed")
+st.session_state.theme = "dark" if theme_toggle else "light"
 
 # Define Theme CSS Variables
 if st.session_state.theme == "dark":
@@ -66,6 +64,7 @@ if st.session_state.theme == "dark":
     plotly_grid_color = "rgba(255,255,255,0.06)"
     plotly_axis_color = "#7E8E85"
     gauge_num_color = "#FAFAF8"
+    theme_icon = "🌙"
 else:
     theme_variables = """
     :root {
@@ -101,6 +100,7 @@ else:
     plotly_grid_color = "#F0EDE8"
     plotly_axis_color = "#9A9A9A"
     gauge_num_color = "#1A1A1A"
+    theme_icon = "☀️"
 
 # ============================================================
 # PROFESSIONAL CSS — Clean SaaS Dashboard
@@ -739,9 +739,12 @@ css_content = """
         .g-card {
             padding: 18px !important;
         }
-        div.stButton:not(div[data-baseweb="tab-panel"] *) {
+        div[data-testid="stToggle"],
+        div[data-testid="stCheckbox"],
+        div.stCheckbox,
+        div.stToggle {
             right: 80px !important;
-            top: 13px !important;
+            top: 15px !important;
             left: auto !important;
             margin-left: 0 !important;
         }
@@ -759,48 +762,37 @@ css_content = """
         }
     }
 
-    /* ── Floating Theme Button ────────────────── */
-    div.stButton:not(div[data-baseweb="tab-panel"] *) {
+    /* ── Floating Theme Toggle ────────────────── */
+    div[data-testid="stToggle"],
+    div[data-testid="stCheckbox"],
+    div.stCheckbox,
+    div.stToggle {
         position: fixed;
-        top: 13px;
+        top: 15px;
         left: 50%;
         margin-left: 470px; /* Aligns with the right edge of the 1200px centered content */
         z-index: 10000000;
+        background: transparent !important;
+        border: none !important;
+        width: auto !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-    div.stButton:not(div[data-baseweb="tab-panel"] *) button {
-        width: 38px !important;
-        height: 38px !important;
-        min-width: 38px !important;
-        min-height: 38px !important;
-        max-width: 38px !important;
-        max-height: 38px !important;
-        border-radius: 50% !important;
-        padding: 0 !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        background: var(--bg-warm) !important;
-        border: 1px solid var(--border) !important;
-        box-shadow: var(--shadow-sm) !important;
-        transition: all 0.2s ease !important;
-    }
-    div.stButton:not(div[data-baseweb="tab-panel"] *) button:hover {
-        border-color: var(--border-hover) !important;
-        background: var(--bg-card) !important;
-        transform: scale(1.05) translateY(0) !important;
-        box-shadow: var(--shadow-md) !important;
-    }
-    div.stButton:not(div[data-baseweb="tab-panel"] *) button p {
-        font-size: 1.15rem !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        line-height: 1 !important;
+    div[data-testid="stToggle"]::before,
+    div[data-testid="stCheckbox"]::before,
+    div.stCheckbox::before,
+    div.stToggle::before {
+        content: 'THEME_ICON_PLACEHOLDER';
+        font-size: 1.1rem;
+        margin-right: 8px;
+        opacity: 0.8;
     }
 
     /* ── BaseWeb Dropdowns & Selectboxes Dark Mode Fixes ── */
     /* Consolidated above in select boxes / listbox overrides */
 </style>
-""".replace("THEME_VARIABLES_PLACEHOLDER", theme_variables)
+""".replace("THEME_VARIABLES_PLACEHOLDER", theme_variables).replace("THEME_ICON_PLACEHOLDER", theme_icon)
 st.markdown(css_content, unsafe_allow_html=True)
 
 
