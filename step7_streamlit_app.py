@@ -737,7 +737,10 @@ css_content = """
         .g-card {
             padding: 18px !important;
         }
-        div[data-testid="stToggle"] {
+        div[data-testid="stToggle"],
+        div[data-testid="stCheckbox"],
+        div.stCheckbox,
+        div.stToggle {
             right: 80px !important;
             top: 15px !important;
         }
@@ -756,7 +759,10 @@ css_content = """
     }
 
     /* ── Floating Theme Toggle ────────────────── */
-    div[data-testid="stToggle"] {
+    div[data-testid="stToggle"],
+    div[data-testid="stCheckbox"],
+    div.stCheckbox,
+    div.stToggle {
         position: fixed;
         top: 15px;
         right: 140px;
@@ -768,7 +774,10 @@ css_content = """
         align-items: center;
         justify-content: center;
     }
-    div[data-testid="stToggle"]::before {
+    div[data-testid="stToggle"]::before,
+    div[data-testid="stCheckbox"]::before,
+    div.stCheckbox::before,
+    div.stToggle::before {
         content: 'THEME_ICON_PLACEHOLDER';
         font-size: 1.1rem;
         margin-right: 8px;
