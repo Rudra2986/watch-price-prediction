@@ -191,6 +191,7 @@ css_content = """
         text-decoration: none !important;
         letter-spacing: 0.3px;
         transition: all 0.2s ease;
+        margin-right: 120px !important; /* Leave room for floating theme toggle */
     }
     .nav-cta:hover {
         background: var(--accent-dark) !important;
@@ -698,6 +699,7 @@ css_content = """
             min-width: 36px;
             min-height: 36px;
             justify-content: center;
+            margin-right: 0 !important;
         }
         .stTabs [data-baseweb="tab-list"] {
             top: 14px;
@@ -743,6 +745,8 @@ css_content = """
         div.stToggle {
             right: 80px !important;
             top: 15px !important;
+            left: auto !important;
+            margin-left: 0 !important;
         }
     }
     @media (max-width: 480px) {
@@ -765,7 +769,8 @@ css_content = """
     div.stToggle {
         position: fixed;
         top: 15px;
-        right: 140px;
+        left: 50%;
+        margin-left: 470px; /* Aligns with the right edge of the 1200px centered content */
         z-index: 10000000;
         background: transparent !important;
         border: none !important;
