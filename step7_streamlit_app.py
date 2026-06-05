@@ -90,7 +90,7 @@ st.markdown("""
         font-family: 'Poppins', sans-serif;
         font-weight: 700;
         font-size: 1.25rem;
-        color: var(--text-primary);
+        color: var(--text-primary) !important;
         letter-spacing: 0.3px;
         text-decoration: none !important;
     }
@@ -107,48 +107,33 @@ st.markdown("""
     .nav-logo-icon svg {
         width: 18px;
         height: 18px;
+        stroke: #FFFFFF !important;
     }
     .nav-logo-text {
         text-decoration: none !important;
-        color: var(--text-primary);
+        color: var(--text-primary) !important;
     }
     .nav-logo-text span {
         color: var(--accent);
-    }
-    .nav-links {
-        display: flex;
-        align-items: center;
-        gap: 32px;
-    }
-    .nav-link {
-        font-size: 0.88rem;
-        font-weight: 500;
-        color: var(--text-secondary);
-        text-decoration: none !important;
-        letter-spacing: 0.2px;
-        transition: color 0.2s ease;
-        cursor: pointer;
-    }
-    .nav-link:hover {
-        color: var(--text-primary);
     }
     .nav-cta, .nav-cta:hover, .nav-cta:active, .nav-cta:focus {
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        background: var(--accent);
-        border: none;
-        border-radius: var(--radius-sm);
-        padding: 9px 18px;
-        font-size: 0.82rem;
-        font-weight: 600;
-        color: #FFFFFF;
+        background: var(--accent) !important;
+        border: none !important;
+        border-radius: var(--radius-sm) !important;
+        padding: 9px 18px !important;
+        font-size: 0.82rem !important;
+        font-weight: 600 !important;
+        color: #FFFFFF !important;
         text-decoration: none !important;
         letter-spacing: 0.3px;
         transition: all 0.2s ease;
     }
     .nav-cta:hover {
-        background: var(--accent-dark);
+        background: var(--accent-dark) !important;
+        color: #FFFFFF !important;
         transform: translateY(-1px);
         box-shadow: var(--shadow-md);
     }
@@ -156,7 +141,7 @@ st.markdown("""
     /* ── Navigation Tabs ─────────────────────── */
     .stTabs [data-baseweb="tab-list"] {
         position: fixed;
-        top: 14px;
+        top: 12px;
         left: 50%;
         transform: translateX(-50%);
         z-index: 1000000;
@@ -168,9 +153,9 @@ st.markdown("""
     }
     .stTabs [data-baseweb="tab"] {
         border-radius: 100px !important;
-        padding: 7px 22px !important;
+        padding: 6px 20px !important;
         color: var(--text-secondary) !important;
-        font-weight: 500 !important;
+        font-weight: 600 !important;
         font-size: 0.82rem !important;
         border: none !important;
         background: transparent !important;
@@ -242,38 +227,39 @@ st.markdown("""
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        background: var(--accent);
-        color: #FFFFFF;
-        padding: 12px 24px;
-        border-radius: var(--radius-sm);
-        font-size: 0.9rem;
-        font-weight: 600;
+        background: var(--accent) !important;
+        color: #FFFFFF !important;
+        padding: 12px 24px !important;
+        border-radius: var(--radius-sm) !important;
+        font-size: 0.9rem !important;
+        font-weight: 600 !important;
         text-decoration: none !important;
-        transition: all 0.2s ease;
-        border: none;
+        transition: all 0.2s ease !important;
+        border: none !important;
     }
     .hero-btn-primary:hover {
-        background: var(--accent-dark);
-        transform: translateY(-1px);
-        box-shadow: var(--shadow-md);
+        background: var(--accent-dark) !important;
+        transform: translateY(-1px) !important;
+        box-shadow: var(--shadow-md) !important;
     }
     .hero-btn-secondary, .hero-btn-secondary:hover, .hero-btn-secondary:active, .hero-btn-secondary:focus {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        background: transparent;
-        color: var(--text-primary);
-        padding: 12px 24px;
-        border-radius: var(--radius-sm);
-        font-size: 0.9rem;
-        font-weight: 600;
+        background: transparent !important;
+        color: var(--text-primary) !important;
+        padding: 12px 24px !important;
+        border-radius: var(--radius-sm) !important;
+        font-size: 0.9rem !important;
+        font-weight: 600 !important;
         text-decoration: none !important;
-        transition: all 0.2s ease;
-        border: 1px solid var(--border);
+        transition: all 0.2s ease !important;
+        border: 1px solid var(--border) !important;
     }
     .hero-btn-secondary:hover {
-        border-color: var(--border-hover);
-        background: var(--bg-warm);
+        border-color: var(--border-hover) !important;
+        background: var(--bg-warm) !important;
+        transform: translateY(-1px) !important;
     }
 
     /* ── Clean Card ───────────────────────────── */
@@ -465,6 +451,16 @@ st.markdown("""
         transform: translateY(0) !important;
     }
 
+    /* ── Global Anchor Reset ──────────────────── */
+    .stApp a {
+        color: var(--accent) !important;
+        text-decoration: none !important;
+        transition: color 0.2s ease !important;
+    }
+    .stApp a:hover {
+        color: var(--accent-dark) !important;
+    }
+
     /* ── Select Boxes & Inputs ────────────────── */
     .stSelectbox label {
         color: var(--text-secondary) !important;
@@ -482,6 +478,19 @@ st.markdown("""
     }
     div[data-testid="stExpander"]:hover {
         border-color: var(--border-hover);
+    }
+
+    /* ── Focus and widget overrides (removing default blue) ── */
+    div[data-baseweb="select"] > div {
+        border-color: var(--border) !important;
+    }
+    div[data-baseweb="select"]:focus-within > div {
+        border-color: var(--accent) !important;
+        box-shadow: 0 0 0 1px var(--accent) !important;
+    }
+    div[role="listbox"] ul li[aria-selected="true"] {
+        background-color: var(--accent-light) !important;
+        color: var(--text-primary) !important;
     }
 
     /* ── Section Headers ─────────────────────── */
@@ -525,12 +534,12 @@ st.markdown("""
         letter-spacing: 0.3px;
     }
     .app-footer a {
-        color: var(--accent);
+        color: var(--accent) !important;
         text-decoration: none;
         font-weight: 500;
     }
     .app-footer a:hover {
-        color: var(--accent-dark);
+        color: var(--accent-dark) !important;
     }
 
     /* ── Streamlit Overrides ──────────────────── */
@@ -539,13 +548,11 @@ st.markdown("""
     }
     .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 {
         color: var(--text-primary);
+        font-family: 'Poppins', sans-serif !important;
     }
 
     /* ── Mobile Responsiveness ───────────────── */
     @media (max-width: 768px) {
-        .nav-links {
-            display: none;
-        }
         .nav-logo-text {
             display: none !important;
         }
@@ -559,6 +566,9 @@ st.markdown("""
             min-height: 36px;
             justify-content: center;
         }
+        .stTabs [data-baseweb="tab-list"] {
+            top: 14px;
+        }
         .stTabs [data-baseweb="tab"] {
             padding: 6px 14px !important;
             font-size: 0.78rem !important;
@@ -567,7 +577,7 @@ st.markdown("""
             padding: 20px 0 !important;
         }
         .hero-title {
-            font-size: 2rem !important;
+            font-size: 2.2rem !important;
         }
         .hero-sub {
             font-size: 0.9rem !important;
@@ -601,7 +611,7 @@ st.markdown("""
             font-size: 0.72rem !important;
         }
         .hero-title {
-            font-size: 1.7rem !important;
+            font-size: 1.8rem !important;
         }
         .kpi-value {
             font-size: 1.3rem !important;
@@ -624,12 +634,6 @@ st.markdown("""
             </span>
             <span class="nav-logo-text">Chronos <span>AI</span></span>
         </a>
-        <div class="nav-links">
-            <span class="nav-link">Prediction</span>
-            <span class="nav-link">Analytics</span>
-            <span class="nav-link">Performance</span>
-            <span class="nav-link">About</span>
-        </div>
         <a href="https://github.com/Rudra2986/watch-price-prediction" target="_blank" class="nav-cta">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
             <span>GitHub</span>
@@ -732,8 +736,9 @@ with col_hero_right:
             background: transparent;
         }
         #canvas-container {
-            width: 100%;
+            max-width: 380px;
             height: 340px;
+            margin: 10px auto 0 auto;
             position: relative;
             cursor: grab;
         }
@@ -757,151 +762,116 @@ with col_hero_right:
         renderer.setPixelRatio(window.devicePixelRatio);
         container.appendChild(renderer.domElement);
 
-        // Lighting for solid materials
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-        scene.add(ambientLight);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-        directionalLight.position.set(5, 5, 5);
-        scene.add(directionalLight);
-        const pointLight = new THREE.PointLight(0xC9A96E, 0.4, 20);
-        pointLight.position.set(-3, 3, 4);
-        scene.add(pointLight);
-
         const watchGroup = new THREE.Group();
         scene.add(watchGroup);
 
-        // Materials — Professional champagne gold & dark green
-        const goldMaterial = new THREE.MeshStandardMaterial({
-            color: 0xC9A96E,
-            metalness: 0.7,
-            roughness: 0.25
-        });
-        const goldWireMaterial = new THREE.MeshBasicMaterial({
+        // Materials — Stylized vector wireframe & flat colors
+        const goldMaterial = new THREE.MeshBasicMaterial({
             color: 0xC9A96E,
             wireframe: true,
             transparent: true,
-            opacity: 0.3
+            opacity: 0.6
         });
-        const darkGreenMaterial = new THREE.MeshStandardMaterial({
+        const darkGreenMaterial = new THREE.MeshBasicMaterial({
             color: 0x2D6A4F,
-            metalness: 0.5,
-            roughness: 0.3
+            wireframe: true,
+            transparent: true,
+            opacity: 0.6
         });
-        const dialMaterial = new THREE.MeshStandardMaterial({
-            color: 0xFAFAF8,
-            metalness: 0.1,
-            roughness: 0.6
+        const dialMaterial = new THREE.MeshBasicMaterial({
+            color: 0xF5F3EE,
+            transparent: true,
+            opacity: 0.95
         });
-        const ticksMaterial = new THREE.MeshStandardMaterial({
-            color: 0x1A1A1A,
-            metalness: 0.3,
-            roughness: 0.4
+        const ticksMaterial = new THREE.MeshBasicMaterial({
+            color: 0x1A1A1A
         });
-        const strapMaterial = new THREE.MeshStandardMaterial({
-            color: 0x3D3D3D,
-            metalness: 0.2,
-            roughness: 0.7
+        const strapMaterial = new THREE.MeshBasicMaterial({
+            color: 0x2D6A4F,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.35
         });
 
-        // Outer Bezel / Case
-        const bezelGeom = new THREE.TorusGeometry(1.6, 0.18, 16, 64);
+        // Outer Bezel / Case (Wireframe Gold)
+        const bezelGeom = new THREE.TorusGeometry(1.6, 0.18, 12, 48);
         const bezel = new THREE.Mesh(bezelGeom, goldMaterial);
         watchGroup.add(bezel);
 
-        // Inner ring
-        const bezelInnerGeom = new THREE.TorusGeometry(1.42, 0.04, 16, 64);
+        // Inner Bezel Ring (Wireframe Green)
+        const bezelInnerGeom = new THREE.TorusGeometry(1.42, 0.04, 12, 48);
         const bezelInner = new THREE.Mesh(bezelInnerGeom, darkGreenMaterial);
         watchGroup.add(bezelInner);
 
-        // Wireframe overlay for depth
-        const wireOverlay = new THREE.Mesh(new THREE.TorusGeometry(1.6, 0.19, 8, 48), goldWireMaterial);
-        watchGroup.add(wireOverlay);
-
-        // Dial Face
-        const dialGeom = new THREE.CylinderGeometry(1.38, 1.38, 0.06, 48);
+        // Dial Face (Flat Soft Beige)
+        const dialGeom = new THREE.CylinderGeometry(1.38, 1.38, 0.02, 64);
         dialGeom.rotateX(Math.PI / 2);
         const dial = new THREE.Mesh(dialGeom, dialMaterial);
         watchGroup.add(dial);
 
-        // Hour Ticks
+        // Hour Ticks (12 clean flat marks - no tiny minute dots)
         const ticksGroup = new THREE.Group();
         for (let i = 0; i < 12; i++) {
             const angle = (i * Math.PI * 2) / 12;
             const isMain = (i % 3 === 0);
-            const tickW = isMain ? 0.06 : 0.03;
-            const tickH = isMain ? 0.22 : 0.1;
-            const tickGeom = new THREE.BoxGeometry(tickW, tickH, 0.03);
-            const tick = new THREE.Mesh(tickGeom, isMain ? ticksMaterial : ticksMaterial);
-            tick.position.x = Math.sin(angle) * 1.22;
-            tick.position.y = Math.cos(angle) * 1.22;
-            tick.position.z = 0.04;
+            const tickW = isMain ? 0.04 : 0.02;
+            const tickH = isMain ? 0.16 : 0.08;
+            const tickGeom = new THREE.BoxGeometry(tickW, tickH, 0.02);
+            const tick = new THREE.Mesh(tickGeom, ticksMaterial);
+            tick.position.x = Math.sin(angle) * 1.24;
+            tick.position.y = Math.cos(angle) * 1.24;
+            tick.position.z = 0.02;
             tick.rotation.z = -angle;
             ticksGroup.add(tick);
         }
         watchGroup.add(ticksGroup);
 
-        // Minute markers (small dots)
-        for (let i = 0; i < 60; i++) {
-            if (i % 5 === 0) continue;
-            const angle = (i * Math.PI * 2) / 60;
-            const dotGeom = new THREE.SphereGeometry(0.015, 6, 6);
-            const dot = new THREE.Mesh(dotGeom, ticksMaterial);
-            dot.position.x = Math.sin(angle) * 1.28;
-            dot.position.y = Math.cos(angle) * 1.28;
-            dot.position.z = 0.04;
-            ticksGroup.add(dot);
-        }
-
-        // Strap — Top
-        const strapTopGeom = new THREE.BoxGeometry(0.75, 1.4, 0.12);
+        // Strap — Top (Simplified Wireframe)
+        const strapTopGeom = new THREE.BoxGeometry(0.7, 1.5, 0.05);
         const strapTop = new THREE.Mesh(strapTopGeom, strapMaterial);
-        strapTop.position.y = 2.25;
+        strapTop.position.y = 2.1;
         strapTop.position.z = -0.1;
-        strapTop.rotation.x = -0.12;
+        strapTop.rotation.x = -0.1;
         watchGroup.add(strapTop);
 
-        // Strap — Bottom
-        const strapBottomGeom = new THREE.BoxGeometry(0.75, 1.4, 0.12);
+        // Strap — Bottom (Simplified Wireframe)
+        const strapBottomGeom = new THREE.BoxGeometry(0.7, 1.5, 0.05);
         const strapBottom = new THREE.Mesh(strapBottomGeom, strapMaterial);
-        strapBottom.position.y = -2.25;
+        strapBottom.position.y = -2.1;
         strapBottom.position.z = -0.1;
-        strapBottom.rotation.x = 0.12;
+        strapBottom.rotation.x = 0.1;
         watchGroup.add(strapBottom);
 
         // Crown
-        const crownGeom = new THREE.CylinderGeometry(0.14, 0.14, 0.3, 16);
+        const crownGeom = new THREE.CylinderGeometry(0.14, 0.14, 0.25, 12);
         const crown = new THREE.Mesh(crownGeom, goldMaterial);
-        crown.position.x = 1.78;
+        crown.position.x = 1.75;
         crown.rotation.z = -Math.PI / 2;
         watchGroup.add(crown);
 
         // Center hub
-        const hubGeom = new THREE.CylinderGeometry(0.08, 0.08, 0.1, 16);
+        const hubGeom = new THREE.CylinderGeometry(0.08, 0.08, 0.04, 16);
         hubGeom.rotateX(Math.PI / 2);
         const hub = new THREE.Mesh(hubGeom, goldMaterial);
-        hub.position.z = 0.08;
+        hub.position.z = 0.03;
         watchGroup.add(hub);
 
-        // Hour hand
-        const hourHandGeom = new THREE.BoxGeometry(0.07, 0.7, 0.02);
-        hourHandGeom.translate(0, 0.35, 0.06);
+        // Hour hand (Flat Dark Gray)
+        const hourHandGeom = new THREE.BoxGeometry(0.06, 0.7, 0.01);
+        hourHandGeom.translate(0, 0.35, 0.02);
         const hourHand = new THREE.Mesh(hourHandGeom, ticksMaterial);
         watchGroup.add(hourHand);
 
-        // Minute hand
-        const minHandGeom = new THREE.BoxGeometry(0.05, 1.0, 0.02);
-        minHandGeom.translate(0, 0.5, 0.07);
-        const minHand = new THREE.Mesh(minHandGeom, ticksMaterial);
+        // Minute hand (Flat Dark Green)
+        const minHandGeom = new THREE.BoxGeometry(0.04, 1.0, 0.01);
+        minHandGeom.translate(0, 0.5, 0.03);
+        const minHand = new THREE.Mesh(minHandGeom, new THREE.MeshBasicMaterial({ color: 0x2D6A4F }));
         watchGroup.add(minHand);
 
-        // Second hand
-        const secHandGeom = new THREE.BoxGeometry(0.02, 1.2, 0.01);
-        secHandGeom.translate(0, 0.6, 0.08);
-        const secHand = new THREE.Mesh(secHandGeom, new THREE.MeshStandardMaterial({
-            color: 0xC9A96E,
-            metalness: 0.6,
-            roughness: 0.3
-        }));
+        // Second hand (Flat Champagne Gold)
+        const secHandGeom = new THREE.BoxGeometry(0.015, 1.15, 0.005);
+        secHandGeom.translate(0, 0.575, 0.04);
+        const secHand = new THREE.Mesh(secHandGeom, new THREE.MeshBasicMaterial({ color: 0xC9A96E }));
         watchGroup.add(secHand);
 
         // Interaction state
@@ -1011,7 +981,7 @@ st.markdown('<div class="clean-sep"></div>', unsafe_allow_html=True)
 # TABS — Predict | Analytics | About
 # ============================================================
 
-tab_predict, tab_analytics, tab_about = st.tabs(["⌚  Predict", "📊  Analytics", "ℹ️  About"])
+tab_predict, tab_analytics, tab_about = st.tabs(["Predict", "Analytics", "About"])
 
 
 # ============================================================
