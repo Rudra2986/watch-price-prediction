@@ -22,7 +22,7 @@ st.set_page_config(
 
 # ── Theme State Management ──────────────────────────────────
 if "theme" not in st.session_state:
-    st.session_state.theme = "light"
+    st.session_state.theme = "dark"
 
 # Floating toggle switch in the top-right navbar area (styled with fixed position in CSS)
 theme_toggle = st.toggle("Dark Theme", value=(st.session_state.theme == "dark"), label_visibility="collapsed")
