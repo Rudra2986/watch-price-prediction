@@ -460,6 +460,22 @@ st.markdown("""
     .stApp a:hover {
         color: var(--accent-dark) !important;
     }
+    .stApp a.nav-cta, 
+    .stApp a.nav-cta:hover, 
+    .stApp a.nav-cta:active, 
+    .stApp a.nav-cta:focus,
+    .stApp a.hero-btn-primary, 
+    .stApp a.hero-btn-primary:hover, 
+    .stApp a.hero-btn-primary:active, 
+    .stApp a.hero-btn-primary:focus {
+        color: #FFFFFF !important;
+    }
+    .stApp a.hero-btn-secondary, 
+    .stApp a.hero-btn-secondary:hover, 
+    .stApp a.hero-btn-secondary:active, 
+    .stApp a.hero-btn-secondary:focus {
+        color: var(--text-primary) !important;
+    }
 
     /* ── Select Boxes & Inputs ────────────────── */
     .stSelectbox label {
@@ -709,9 +725,8 @@ with col_hero_left:
         <div class="brand-badge">MACHINE LEARNING · WATCH VALUATION</div>
         <h1 class="hero-title">Predict Watch<br><span class="highlight">Prices</span> with<br>Precision AI</h1>
         <p class="hero-sub" style="max-width: 480px;">
-            An end-to-end machine learning platform that analyzes 15+ features
-            to deliver accurate price predictions for luxury timepieces — trained on
-            50,000+ real market transactions.
+            Intelligent watch price prediction — trained on 1,488 watches
+            from the WatchVine marketplace. Hover or touch to rotate the interactive 3D timepiece.
         </p>
         <div class="hero-buttons">
             <a href="#predict" class="hero-btn-primary">Try Prediction →</a>
