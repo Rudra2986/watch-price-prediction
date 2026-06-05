@@ -64,6 +64,7 @@ if st.session_state.theme == "dark":
     plotly_grid_color = "rgba(255,255,255,0.06)"
     plotly_axis_color = "#7E8E85"
     gauge_num_color = "#FAFAF8"
+    theme_icon = "🌙"
 else:
     theme_variables = """
     :root {
@@ -99,6 +100,7 @@ else:
     plotly_grid_color = "#F0EDE8"
     plotly_axis_color = "#9A9A9A"
     gauge_num_color = "#1A1A1A"
+    theme_icon = "☀️"
 
 # ============================================================
 # PROFESSIONAL CSS — Clean SaaS Dashboard
@@ -110,6 +112,9 @@ css_content = """
     THEME_VARIABLES_PLACEHOLDER
 
     /* ── Global ──────────────────────────────── */
+    html {
+        scroll-behavior: smooth;
+    }
     .stApp {
         background: var(--bg-primary);
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -584,10 +589,6 @@ css_content = """
     div[data-testid="stRadio"] [data-testid="stMarkdownContainer"] p {
         color: var(--text-primary) !important;
     }
-    div[data-testid="stRadio"] label[data-baseweb="radio"] input:checked + div {
-        background-color: var(--accent) !important;
-        border-color: var(--accent) !important;
-    }
     
     /* Dropdown Popover & Listbox Menu */
     div[data-baseweb="popover"],
@@ -768,7 +769,7 @@ css_content = """
         justify-content: center;
     }
     div[data-testid="stToggle"]::before {
-        content: '🌓';
+        content: 'THEME_ICON_PLACEHOLDER';
         font-size: 1.1rem;
         margin-right: 8px;
         opacity: 0.8;
@@ -777,7 +778,7 @@ css_content = """
     /* ── BaseWeb Dropdowns & Selectboxes Dark Mode Fixes ── */
     /* Consolidated above in select boxes / listbox overrides */
 </style>
-""".replace("THEME_VARIABLES_PLACEHOLDER", theme_variables)
+""".replace("THEME_VARIABLES_PLACEHOLDER", theme_variables).replace("THEME_ICON_PLACEHOLDER", theme_icon)
 st.markdown(css_content, unsafe_allow_html=True)
 
 
@@ -1150,6 +1151,7 @@ tab_predict, tab_analytics, tab_about = st.tabs(["Predict", "Analytics", "About"
 
 with tab_predict:
 
+    st.markdown('<div id="predict" style="position: relative; top: -90px;"></div>', unsafe_allow_html=True)
     st.markdown("""
     <div class="section-hdr">
         <div class="dot"></div>
