@@ -20,13 +20,52 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# ============================================================
-# PROFESSIONAL CSS — Clean SaaS Dashboard
-# ============================================================
-st.markdown("""
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap');
+# ── Theme State Management ──────────────────────────────────
+if "theme" not in st.session_state:
+    st.session_state.theme = "light"
 
+# Floating toggle switch in the top-right navbar area (styled with fixed position in CSS)
+theme_toggle = st.toggle("Dark Theme", value=(st.session_state.theme == "dark"), label_visibility="collapsed")
+st.session_state.theme = "dark" if theme_toggle else "light"
+
+# Define Theme CSS Variables
+if st.session_state.theme == "dark":
+    theme_variables = """
+    :root {
+        --bg-primary: #0A140F;
+        --bg-card: #12221A;
+        --bg-card-hover: #162B20;
+        --bg-warm: #101F18;
+        --border: rgba(201, 169, 110, 0.2);
+        --border-hover: rgba(201, 169, 110, 0.45);
+        --accent: #C9A96E;
+        --accent-light: rgba(201, 169, 110, 0.12);
+        --accent-medium: rgba(201, 169, 110, 0.22);
+        --accent-dark: #E6C587;
+        --green: #34D399;
+        --green-light: rgba(52, 209, 153, 0.1);
+        --red-light: rgba(239, 68, 68, 0.1);
+        --red: #EF4444;
+        --text-primary: #FAFAF8;
+        --text-secondary: #C5D1C9;
+        --text-muted: #7E8E85;
+        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+        --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+    }
+    """
+    watch_dial_color = "0x12221A"
+    watch_ticks_color = "0xFAFAF8"
+    watch_hands_color = "0xFAFAF8"
+    plotly_font_color = "#C5D1C9"
+    plotly_grid_color = "rgba(255,255,255,0.06)"
+    plotly_axis_color = "#7E8E85"
+    gauge_num_color = "#FAFAF8"
+else:
+    theme_variables = """
     :root {
         --bg-primary: #FAFAF8;
         --bg-card: #FFFFFF;
@@ -52,6 +91,23 @@ st.markdown("""
         --radius-md: 12px;
         --radius-lg: 16px;
     }
+    """
+    watch_dial_color = "0xF5F3EE"
+    watch_ticks_color = "0x1A1A1A"
+    watch_hands_color = "0x1A1A1A"
+    plotly_font_color = "#5A5A5A"
+    plotly_grid_color = "#F0EDE8"
+    plotly_axis_color = "#9A9A9A"
+    gauge_num_color = "#1A1A1A"
+
+# ============================================================
+# PROFESSIONAL CSS — Clean SaaS Dashboard
+# ============================================================
+css_content = """
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap');
+
+    THEME_VARIABLES_PLACEHOLDER
 
     /* ── Global ──────────────────────────────── */
     .stApp {
@@ -67,7 +123,7 @@ st.markdown("""
         position: fixed;
         top: 0; left: 0; width: 100%;
         height: 64px;
-        background: #FFFFFF;
+        background: var(--bg-card);
         border-bottom: 1px solid var(--border);
         z-index: 999999;
         display: flex;
@@ -165,7 +221,7 @@ st.markdown("""
         color: var(--text-primary) !important;
     }
     .stTabs [aria-selected="true"] {
-        background: #FFFFFF !important;
+        background: var(--bg-card) !important;
         color: var(--text-primary) !important;
         border: 1px solid var(--border) !important;
         box-shadow: var(--shadow-sm) !important;
@@ -620,6 +676,10 @@ st.markdown("""
         .g-card {
             padding: 18px !important;
         }
+        div[data-testid="stToggle"] {
+            right: 80px !important;
+            top: 15px !important;
+        }
     }
     @media (max-width: 480px) {
         .stTabs [data-baseweb="tab"] {
@@ -633,8 +693,61 @@ st.markdown("""
             font-size: 1.3rem !important;
         }
     }
+
+    /* ── Floating Theme Toggle ────────────────── */
+    div[data-testid="stToggle"] {
+        position: fixed;
+        top: 15px;
+        right: 140px;
+        z-index: 10000000;
+        background: transparent !important;
+        border: none !important;
+        width: auto !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    div[data-testid="stToggle"]::before {
+        content: '🌓';
+        font-size: 1.1rem;
+        margin-right: 8px;
+        opacity: 0.8;
+    }
+
+    /* ── BaseWeb Dropdowns & Selectboxes Dark Mode Fixes ── */
+    div[data-baseweb="select"] {
+        background-color: var(--bg-card) !important;
+        color: var(--text-primary) !important;
+    }
+    div[data-baseweb="select"] div {
+        color: var(--text-primary) !important;
+    }
+    div[data-baseweb="select"] svg {
+        fill: var(--text-secondary) !important;
+    }
+    div[data-baseweb="popover"] {
+        background-color: var(--bg-card) !important;
+        border: 1px solid var(--border) !important;
+    }
+    div[data-baseweb="popover"] li {
+        color: var(--text-primary) !important;
+        background-color: var(--bg-card) !important;
+    }
+    div[data-baseweb="popover"] li:hover {
+        background-color: var(--accent-light) !important;
+    }
+    div[data-baseweb="popover"] li[aria-selected="true"] {
+        background-color: var(--accent-medium) !important;
+    }
+    div[data-testid="stExpander"] summary {
+        color: var(--text-primary) !important;
+    }
+    div[data-testid="stExpander"] summary svg {
+        fill: var(--text-secondary) !important;
+    }
 </style>
-""", unsafe_allow_html=True)
+""".replace("THEME_VARIABLES_PLACEHOLDER", theme_variables)
+st.markdown(css_content, unsafe_allow_html=True)
 
 
 # ── Custom Navigation Bar ──────────────────────────────────
@@ -740,7 +853,7 @@ with col_hero_left:
 
 with col_hero_right:
     # 3D Interactive Watch Component (Three.js) — Professional Theme
-    watch_3d_html = """
+    watch_3d_html_raw = """
     <!DOCTYPE html>
     <html>
     <head>
@@ -794,12 +907,12 @@ with col_hero_right:
             opacity: 0.6
         });
         const dialMaterial = new THREE.MeshBasicMaterial({
-            color: 0xF5F3EE,
+            color: WATCH_DIAL_COLOR,
             transparent: true,
             opacity: 0.95
         });
         const ticksMaterial = new THREE.MeshBasicMaterial({
-            color: 0x1A1A1A
+            color: WATCH_TICKS_COLOR
         });
         const strapMaterial = new THREE.MeshBasicMaterial({
             color: 0x2D6A4F,
@@ -960,6 +1073,7 @@ with col_hero_right:
     </body>
     </html>
     """
+    watch_3d_html = watch_3d_html_raw.replace("WATCH_DIAL_COLOR", watch_dial_color).replace("WATCH_TICKS_COLOR", watch_ticks_color).replace("WATCH_HANDS_COLOR", watch_hands_color)
     import streamlit.components.v1 as components
     components.html(watch_3d_html, height=360)
 
@@ -1174,12 +1288,12 @@ with tab_predict:
             gauge = go.Figure(go.Indicator(
                 mode="gauge+number",
                 value=r2_val * 100,
-                number={"suffix": "%", "font": {"size": 36, "color": "#1A1A1A", "family": "Poppins"}},
+                number={"suffix": "%", "font": {"size": 36, "color": gauge_num_color, "family": "Poppins"}},
                 gauge={
-                    "axis": {"range": [0, 100], "tickcolor": "#D4CFC7",
-                             "tickfont": {"color": "#9A9A9A", "size": 10}},
+                    "axis": {"range": [0, 100], "tickcolor": plotly_axis_color,
+                             "tickfont": {"color": plotly_axis_color, "size": 10}},
                     "bar": {"color": "#C9A96E", "thickness": 0.3},
-                    "bgcolor": "#F5F3EE",
+                    "bgcolor": "#101F18" if st.session_state.theme == "dark" else "#F5F3EE",
                     "borderwidth": 0,
                     "steps": [
                         {"range": [0, 30], "color": "rgba(220, 53, 69, 0.08)"},
@@ -1196,7 +1310,7 @@ with tab_predict:
                 height=220,
                 margin=dict(l=30, r=30, t=20, b=10),
                 paper_bgcolor="rgba(0,0,0,0)",
-                font={"color": "#9A9A9A"},
+                font={"color": plotly_axis_color},
             )
             st.plotly_chart(gauge, use_container_width=True)
             st.markdown('</div>', unsafe_allow_html=True)
@@ -1239,22 +1353,22 @@ with tab_predict:
                     margin=dict(l=10, r=10, t=10, b=10),
                     paper_bgcolor="rgba(0,0,0,0)",
                     plot_bgcolor="rgba(0,0,0,0)",
-                    font=dict(color="#5A5A5A", size=11, family="Inter"),
+                    font=dict(color=plotly_font_color, size=11, family="Inter"),
                     xaxis=dict(
-                        gridcolor="#F0EDE8",
+                        gridcolor=plotly_grid_color,
                         title="Impact on Model Output",
-                        title_font=dict(color="#9A9A9A", size=11),
-                        tickfont=dict(color="#9A9A9A"),
+                        title_font=dict(color=plotly_axis_color, size=11),
+                        tickfont=dict(color=plotly_axis_color),
                     ),
                     yaxis=dict(
-                        gridcolor="#F0EDE8",
-                        tickfont=dict(color="#5A5A5A"),
+                        gridcolor=plotly_grid_color,
+                        tickfont=dict(color=plotly_font_color),
                     ),
                     hoverlabel=dict(
-                        bgcolor="#FFFFFF",
+                        bgcolor="#12221A" if st.session_state.theme == "dark" else "#FFFFFF",
                         font_size=12,
-                        bordercolor="#E8E5E0",
-                        font_color="#1A1A1A",
+                        bordercolor=plotly_grid_color,
+                        font_color=plotly_font_color,
                     ),
                 )
                 st.plotly_chart(fig, use_container_width=True)
@@ -1401,22 +1515,22 @@ with tab_analytics:
             margin=dict(l=10, r=60, t=10, b=10),
             paper_bgcolor="rgba(0,0,0,0)",
             plot_bgcolor="rgba(0,0,0,0)",
-            font=dict(color="#5A5A5A", size=12, family="Inter"),
+            font=dict(color=plotly_font_color, size=12, family="Inter"),
             xaxis=dict(
-                gridcolor="#F0EDE8",
+                gridcolor=plotly_grid_color,
                 range=[0, 0.85],
                 title="R² Score (higher is better)",
-                title_font=dict(color="#9A9A9A", size=11),
-                tickfont=dict(color="#9A9A9A"),
+                title_font=dict(color=plotly_axis_color, size=11),
+                tickfont=dict(color=plotly_axis_color),
             ),
             yaxis=dict(
-                gridcolor="#F0EDE8",
-                tickfont=dict(color="#5A5A5A"),
+                gridcolor=plotly_grid_color,
+                tickfont=dict(color=plotly_font_color),
             ),
             hoverlabel=dict(
-                bgcolor="#FFFFFF",
-                bordercolor="#E8E5E0",
-                font_color="#1A1A1A",
+                bgcolor="#12221A" if st.session_state.theme == "dark" else "#FFFFFF",
+                bordercolor=plotly_grid_color,
+                font_color=plotly_font_color,
             ),
         )
         st.plotly_chart(fig_comp, use_container_width=True)
