@@ -115,9 +115,14 @@ css_content = """
     html {
         scroll-behavior: smooth;
     }
+    * {
+        -webkit-tap-highlight-color: transparent;
+        box-sizing: border-box;
+    }
     .stApp {
         background: var(--bg-primary);
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        overflow-x: hidden;
     }
     [data-testid="stSidebar"] { display: none; }
     .block-container { max-width: 1200px; padding-top: 90px !important; }
@@ -164,6 +169,7 @@ css_content = """
         align-items: center;
         justify-content: center;
         text-decoration: none !important;
+        flex-shrink: 0;
     }
     .nav-logo-icon svg {
         width: 18px;
@@ -222,6 +228,7 @@ css_content = """
         border: none !important;
         background: transparent !important;
         transition: all 0.2s ease !important;
+        white-space: nowrap !important;
     }
     .stTabs [data-baseweb="tab"]:hover {
         color: var(--text-primary) !important;
@@ -354,9 +361,11 @@ css_content = """
         display: flex;
         gap: 16px;
         margin: 20px 0;
+        flex-wrap: wrap;
     }
     .kpi-card {
         flex: 1;
+        min-width: 120px;
         background: var(--bg-card);
         border: 1px solid var(--border);
         border-radius: var(--radius-md);
@@ -377,6 +386,7 @@ css_content = """
         font-size: 1.65rem;
         font-weight: 700;
         color: var(--text-primary);
+        word-break: break-word;
     }
     .kpi-label {
         font-size: 0.72rem;
@@ -419,6 +429,7 @@ css_content = """
         color: var(--text-primary);
         line-height: 1.1;
         margin: 8px 0;
+        word-break: break-word;
     }
     .result-range {
         color: var(--text-secondary);
@@ -436,9 +447,11 @@ css_content = """
         display: flex;
         gap: 12px;
         margin: 20px 0;
+        flex-wrap: wrap;
     }
     .metric-pill {
         flex: 1;
+        min-width: 100px;
         background: var(--bg-card);
         border: 1px solid var(--border);
         border-radius: var(--radius-md);
@@ -456,6 +469,7 @@ css_content = """
         font-size: 1.05rem;
         font-weight: 600;
         color: var(--text-primary);
+        word-break: break-word;
     }
     .metric-pill .lbl {
         font-size: 0.68rem;
@@ -481,6 +495,7 @@ css_content = """
     .insight-card .icon {
         font-size: 1.2rem;
         margin-top: 1px;
+        flex-shrink: 0;
     }
     .insight-card .text {
         color: var(--text-secondary);
@@ -639,6 +654,7 @@ css_content = """
         height: 8px;
         border-radius: 50%;
         background: var(--accent);
+        flex-shrink: 0;
     }
     .section-hdr h3 {
         font-family: 'Poppins', sans-serif;
@@ -685,83 +701,6 @@ css_content = """
         font-family: 'Poppins', sans-serif !important;
     }
 
-    /* ── Mobile Responsiveness ───────────────── */
-    @media (max-width: 768px) {
-        .nav-logo-text {
-            display: none !important;
-        }
-        .nav-cta span {
-            display: none !important;
-        }
-        .nav-cta {
-            padding: 8px !important;
-            border-radius: 50% !important;
-            min-width: 36px;
-            min-height: 36px;
-            justify-content: center;
-            margin-right: 0 !important;
-        }
-        .stTabs [data-baseweb="tab-list"] {
-            top: 14px;
-        }
-        .stTabs [data-baseweb="tab"] {
-            padding: 6px 14px !important;
-            font-size: 0.78rem !important;
-        }
-        .hero-section {
-            padding: 20px 0 !important;
-        }
-        .hero-title {
-            font-size: 2.2rem !important;
-        }
-        .hero-sub {
-            font-size: 0.9rem !important;
-            max-width: 100% !important;
-        }
-        .hero-buttons {
-            flex-direction: column !important;
-        }
-        .hero-btn-primary, .hero-btn-secondary {
-            width: 100% !important;
-            justify-content: center !important;
-        }
-        .kpi-row {
-            flex-direction: column !important;
-            gap: 10px !important;
-        }
-        .metrics-row {
-            flex-direction: column !important;
-            gap: 8px !important;
-        }
-        .result-price {
-            font-size: 2.2rem !important;
-        }
-        .g-card {
-            padding: 18px !important;
-        }
-        div[data-testid="stToggle"],
-        div[data-testid="stCheckbox"],
-        div.stCheckbox,
-        div.stToggle {
-            right: 80px !important;
-            top: 15px !important;
-            left: auto !important;
-            margin-left: 0 !important;
-        }
-    }
-    @media (max-width: 480px) {
-        .stTabs [data-baseweb="tab"] {
-            padding: 4px 10px !important;
-            font-size: 0.72rem !important;
-        }
-        .hero-title {
-            font-size: 1.8rem !important;
-        }
-        .kpi-value {
-            font-size: 1.3rem !important;
-        }
-    }
-
     /* ── Floating Theme Toggle ────────────────── */
     div[data-testid="stToggle"],
     div[data-testid="stCheckbox"],
@@ -787,6 +726,330 @@ css_content = """
         font-size: 1.1rem;
         margin-right: 8px;
         opacity: 0.8;
+    }
+
+    /* ══════════════════════════════════════════════════
+       MOBILE RESPONSIVENESS — Comprehensive Overhaul
+       ══════════════════════════════════════════════════ */
+
+    /* ── Streamlit column stacking for mobile ─── */
+    @media (max-width: 768px) {
+        /* Force Streamlit columns to stack vertically */
+        div[data-testid="column"] {
+            width: 100% !important;
+            flex: 1 1 100% !important;
+            min-width: 100% !important;
+        }
+        div[data-testid="stHorizontalBlock"] {
+            flex-wrap: wrap !important;
+            gap: 12px !important;
+        }
+
+        /* Block container: reduce side padding for phones */
+        .block-container {
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+            padding-top: 80px !important;
+        }
+
+        /* ── Nav Bar — compact mobile ─── */
+        .nav-bar {
+            height: 56px;
+        }
+        .nav-container {
+            padding: 0 14px;
+        }
+        .nav-logo {
+            gap: 8px;
+        }
+        .nav-logo-icon {
+            width: 30px;
+            height: 30px;
+        }
+        .nav-logo-icon svg {
+            width: 15px;
+            height: 15px;
+        }
+        .nav-logo-text {
+            display: none !important;
+        }
+        .nav-cta span {
+            display: none !important;
+        }
+        .nav-cta {
+            padding: 8px !important;
+            border-radius: 50% !important;
+            min-width: 36px;
+            min-height: 36px;
+            justify-content: center;
+            margin-right: 0 !important;
+        }
+
+        /* ── Navigation Tabs — mobile pill bar ─── */
+        .stTabs [data-baseweb="tab-list"] {
+            position: relative !important;
+            top: auto !important;
+            left: auto !important;
+            transform: none !important;
+            width: 100% !important;
+            justify-content: center;
+            padding: 3px 4px;
+            margin-bottom: 8px;
+        }
+        .stTabs [data-baseweb="tab"] {
+            padding: 8px 18px !important;
+            font-size: 0.8rem !important;
+            flex: 1;
+            justify-content: center;
+        }
+        .stTabs [data-baseweb="tab-panel"] {
+            padding-top: 10px !important;
+        }
+
+        /* ── Hero Section ─── */
+        .hero-section {
+            padding: 16px 0 10px 0 !important;
+            text-align: center !important;
+        }
+        .brand-badge {
+            font-size: 0.65rem;
+            letter-spacing: 1.5px;
+            justify-content: center;
+        }
+        .hero-title {
+            font-size: 2rem !important;
+            letter-spacing: -0.3px;
+            line-height: 1.15 !important;
+        }
+        .hero-sub {
+            font-size: 0.88rem !important;
+            max-width: 100% !important;
+            margin-top: 12px !important;
+        }
+        .hero-buttons {
+            flex-direction: column !important;
+            gap: 10px !important;
+            margin-top: 20px !important;
+        }
+        .hero-btn-primary, .hero-btn-secondary {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 13px 20px !important;
+        }
+
+        /* ── KPI Strip — 2x2 grid on mobile ─── */
+        .kpi-row {
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
+        }
+        .kpi-card {
+            padding: 16px 12px !important;
+        }
+        .kpi-value {
+            font-size: 1.35rem !important;
+        }
+        .kpi-label {
+            font-size: 0.65rem !important;
+            letter-spacing: 1px;
+        }
+        .kpi-icon {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        /* ── Metrics Row — 2x2 grid ─── */
+        .metrics-row {
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 8px !important;
+        }
+        .metric-pill {
+            padding: 14px 10px !important;
+        }
+        .metric-pill .val {
+            font-size: 0.92rem !important;
+        }
+        .metric-pill .lbl {
+            font-size: 0.62rem !important;
+        }
+
+        /* ── Cards ─── */
+        .g-card {
+            padding: 16px !important;
+            border-radius: 10px !important;
+        }
+        .g-card:hover {
+            transform: none !important;
+        }
+
+        /* ── Result Card ─── */
+        .result-container {
+            padding: 24px 16px !important;
+        }
+        .result-price {
+            font-size: 2rem !important;
+        }
+        .result-range {
+            font-size: 0.82rem !important;
+        }
+
+        /* ── Section Headers ─── */
+        .section-hdr {
+            margin: 18px 0 12px 0;
+        }
+        .section-hdr h3 {
+            font-size: 0.95rem;
+        }
+
+        /* ── Insight Cards ─── */
+        .insight-card {
+            padding: 12px 14px;
+            gap: 10px;
+        }
+        .insight-card .text {
+            font-size: 0.82rem;
+        }
+
+        /* ── Footer ─── */
+        .app-footer {
+            margin-top: 30px;
+            padding: 20px 10px 10px 10px;
+        }
+        .app-footer p {
+            font-size: 0.72rem;
+        }
+
+        /* ── Separator ─── */
+        .clean-sep {
+            margin: 20px 0;
+        }
+
+        /* ── Floating Theme Toggle — repositioned for mobile ─── */
+        div[data-testid="stToggle"],
+        div[data-testid="stCheckbox"],
+        div.stCheckbox,
+        div.stToggle {
+            position: fixed !important;
+            top: 10px !important;
+            right: 12px !important;
+            left: auto !important;
+            margin-left: 0 !important;
+        }
+        div[data-testid="stToggle"]::before,
+        div[data-testid="stCheckbox"]::before,
+        div.stCheckbox::before,
+        div.stToggle::before {
+            font-size: 0.95rem;
+            margin-right: 4px;
+        }
+
+        /* ── Streamlit buttons — full width on mobile ─── */
+        .stButton > button {
+            padding: 12px 20px !important;
+            font-size: 0.88rem !important;
+        }
+
+        /* ── Selectboxes & form inputs — touch friendly ─── */
+        div[data-baseweb="select"] > div {
+            min-height: 44px !important;
+        }
+
+        /* ── Radio buttons — wrap on mobile ─── */
+        div[data-testid="stRadio"] > div {
+            flex-wrap: wrap !important;
+        }
+
+        /* ── Plotly charts — constrain ─── */
+        .js-plotly-plot {
+            max-width: 100% !important;
+            overflow: hidden !important;
+        }
+
+        /* ── Expander ─── */
+        div[data-testid="stExpander"] {
+            border-radius: 10px;
+        }
+
+        /* ── Pipeline grid on Analytics ─── */
+        .pipeline-mobile-grid {
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
+        }
+    }
+
+    /* ── Extra small screens (< 480px) ─── */
+    @media (max-width: 480px) {
+        .block-container {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+            padding-top: 75px !important;
+        }
+
+        .hero-title {
+            font-size: 1.65rem !important;
+        }
+        .hero-sub {
+            font-size: 0.82rem !important;
+        }
+        .brand-badge {
+            font-size: 0.58rem;
+            letter-spacing: 1px;
+        }
+
+        .stTabs [data-baseweb="tab"] {
+            padding: 6px 12px !important;
+            font-size: 0.72rem !important;
+        }
+
+        .kpi-value {
+            font-size: 1.15rem !important;
+        }
+        .kpi-label {
+            font-size: 0.58rem !important;
+        }
+
+        .result-price {
+            font-size: 1.65rem !important;
+        }
+
+        .metric-pill .val {
+            font-size: 0.82rem !important;
+        }
+
+        .g-card {
+            padding: 12px !important;
+        }
+
+        .section-hdr h3 {
+            font-size: 0.88rem;
+        }
+
+        .nav-bar {
+            height: 50px;
+        }
+
+        .insight-card {
+            padding: 10px 12px;
+        }
+        .insight-card .text {
+            font-size: 0.78rem;
+        }
+    }
+
+    /* ── Medium screens (tablets in landscape) ─── */
+    @media (min-width: 769px) and (max-width: 1024px) {
+        .hero-title {
+            font-size: 2.5rem !important;
+        }
+        .block-container {
+            padding-left: 20px !important;
+            padding-right: 20px !important;
+        }
+        .nav-cta {
+            margin-right: 80px !important;
+        }
     }
 
     /* ── BaseWeb Dropdowns & Selectboxes Dark Mode Fixes ── */
@@ -903,6 +1166,7 @@ with col_hero_right:
     <!DOCTYPE html>
     <html>
     <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             margin: 0;
@@ -918,6 +1182,19 @@ with col_hero_right:
         }
         #canvas-container:active {
             cursor: grabbing;
+        }
+        @media (max-width: 768px) {
+            #canvas-container {
+                max-width: 260px;
+                height: 240px;
+                margin: 5px auto 0 auto;
+            }
+        }
+        @media (max-width: 480px) {
+            #canvas-container {
+                max-width: 220px;
+                height: 200px;
+            }
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -1610,21 +1887,26 @@ with tab_analytics:
     </div>
     """, unsafe_allow_html=True)
 
-    pipe_cols = st.columns(4)
     pipeline_steps = [
         ("🧹", "Data Cleaning", "3,000+ → 18 cols"),
         ("🔍", "EDA", "25 plots, insights"),
         ("⚙️", "Feature Eng.", f"{len(train_cols)} features built"),
         ("🤖", "Model + Tuning", f"{model_name}, Optuna"),
     ]
-    for col, (icon, title, desc) in zip(pipe_cols, pipeline_steps):
-        col.markdown(f"""
-        <div class="g-card" style="text-align:center; min-height:140px;">
-            <div style="font-size:1.8rem; margin-bottom:10px;">{icon}</div>
-            <div style="color:var(--text-primary); font-weight:600; font-size:0.9rem; font-family:'Poppins',sans-serif;">{title}</div>
-            <div style="color:var(--text-muted); font-size:0.78rem; margin-top:6px;">{desc}</div>
-        </div>
-        """, unsafe_allow_html=True)
+    # Use 2-column rows for mobile-friendly layout (2x2 grid)
+    for i in range(0, len(pipeline_steps), 2):
+        row_cols = st.columns(2)
+        for j, col in enumerate(row_cols):
+            idx = i + j
+            if idx < len(pipeline_steps):
+                icon, title, desc = pipeline_steps[idx]
+                col.markdown(f"""
+                <div class="g-card" style="text-align:center; min-height:130px;">
+                    <div style="font-size:1.8rem; margin-bottom:10px;">{icon}</div>
+                    <div style="color:var(--text-primary); font-weight:600; font-size:0.9rem; font-family:'Poppins',sans-serif;">{title}</div>
+                    <div style="color:var(--text-muted); font-size:0.78rem; margin-top:6px;">{desc}</div>
+                </div>
+                """, unsafe_allow_html=True)
 
     # ── Data Quality Note ────────────────────────────────────
     st.markdown("""
