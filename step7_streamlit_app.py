@@ -782,7 +782,7 @@ css_content = """
             min-width: 36px;
             min-height: 36px;
             justify-content: center;
-            margin-right: 0 !important;
+            margin-right: 75px !important; /* Prevents overlapping with the theme toggle on mobile */
         }
 
         /* ── Navigation Tabs — mobile pill bar ─── */
@@ -932,7 +932,7 @@ css_content = """
         div.stToggle {
             position: fixed !important;
             top: 10px !important;
-            right: 12px !important;
+            right: 16px !important; /* Spaced from the screen edge */
             left: auto !important;
             margin-left: 0 !important;
         }
@@ -1183,19 +1183,7 @@ with col_hero_right:
         #canvas-container:active {
             cursor: grabbing;
         }
-        @media (max-width: 768px) {
-            #canvas-container {
-                max-width: 260px;
-                height: 240px;
-                margin: 5px auto 0 auto;
-            }
-        }
-        @media (max-width: 480px) {
-            #canvas-container {
-                max-width: 220px;
-                height: 200px;
-            }
-        }
+
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     </head>
